@@ -1,37 +1,83 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import App from './App'
-import mockAxios from 'jest-mock-axios'
+import axios from 'jest-mock-axios'
+import user from '@testing-library/user-event'
 
-afterEach(() => {
-	mockAxios.reset()
-})
-
-test('renders upload', () => {
-	render(<App />)
-	const uploadElement = screen.getByText(/Drag and drop a file here or click/i)
-	expect(uploadElement).toBeInTheDocument()
-})
-
-test('uploads a file', async () => {
-	render(<App />)
-	window.URL.createObjectURL = jest.fn().mockImplementation(() => 'url')
-	const uploadElement = screen.getByText(/Drag and drop a file here or click/i)
-	const file = new File(['file'], 'ping.json', {
-		type: 'application/json',
+describe('App', () => {
+	afterEach(() => {
+		jest.resetAllMocks()
 	})
-	Object.defineProperty(uploadElement, 'files', {
-		value: [file],
+
+	it('renders upload', () => {
+		render(<App />)
+		const uploadElement = screen.getByText(
+			/Drag and drop a file here or click/i,
+		)
+		expect(uploadElement).toBeInTheDocument()
 	})
-	fireEvent.drop(uploadElement)
-	fireEvent.change(uploadElement)
-	expect(await screen.findByText('ping.json')).toBeInTheDocument()
-	expect(mockAxios.post).toHaveBeenCalledWith(
-		'http://localhost:8080/api/files',
-		new FormData(),
-		{
-			headers: {
-				'Content-Type': 'multipart/form-data',
-			},
-		}
-	)
+
+	it('uploads a file', async () => {
+		const { getByTestId } = render(<App />)
+
+		axios.post.mockResolvedValueOnce({
+			data: [{ _bucket_name: 'bucket', _object_name: 'ping.json' }],
+		})
+		
+    let formData = new FormData()
+		const str = JSON.stringify('boo')
+		const blob = new Blob([str])
+		const file = new File([blob], 'ping.json', { type: 'application/JSON' })
+		formData.append('files', file)
+
+		user.upload(getByTestId(/dropzone/i), file)
+		
+		await waitFor(() =>
+			expect(axios.post).toHaveBeenCalledWith('/files', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					accept: 'application/json',
+				},
+			}),
+		)
+	})
+
+	it('should load the files that have previously been uploaded to minio', async () => {
+		const { getByTestId } = render(<App />)
+    const filename = `${randomString(6)}.json`
+		axios.post.mockResolvedValueOnce({
+			data: [{ _bucket_name: 'bucket', _object_name: filename }],
+		})
+
+		let formData = new FormData()
+		const str = JSON.stringify('boo')
+		const blob = new Blob([str])
+		const file = new File([blob], filename, { type: 'application/JSON' })
+		formData.append('files', file)
+
+		user.upload(getByTestId(/dropzone/i), file)
+
+		await waitFor(() =>
+			expect(axios.post).toHaveBeenCalledWith('/files', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					accept: 'application/json',
+				},
+			}),
+		)
+
+		const filesElement = screen.getByTestId('files-table')
+		expect(filesElement).toBeInTheDocument()
+		expect(filesElement.innerHTML).toBe(filename)
+	})
 })
+
+const randomString = (length: number) => {
+	let result = ''
+	const characters =
+		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+	var charactersLength = characters.length
+	for (var i = 0; i < length; i++) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength))
+	}
+	return result
+}
