@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  web:
+    image: frontend:dev-build
+    ports:
+      - 3000:3000
+    environment:
+      CONTAINER: "true"
+      FORCE_COLOR: "true"
+    volumes:
+      - ./:/app
+  api: 
+    image: backend:dev-build
+    ports:
+      - 8080:8000
+    depends_on:
+      - minio
+    environment:
+      MINIO_URL: minio:9000
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+    volumes:
+      - ../backend/src:/app
+  minio:
+    image: quay.io/minio/minio:RELEASE.2021-11-05T09-16-26Z
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      MINIO_ROOT_USER: minio
+      MINIO_ROOT_PASSWORD: minio123
+    hostname: minio
+    command: minio server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    volumes:
+      - data:/data
+
+volumes:
+  data:
