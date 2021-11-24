@@ -1,11 +1,12 @@
 import { DropzoneArea } from 'material-ui-dropzone'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { API } from './config/axios'
 
 type FileData = {
 	_bucket_name: string
 	_object_name: string
+	_size: number
 }
 
 function App() {
@@ -24,7 +25,12 @@ function App() {
 				.then((result) => setFileData([...result.data]))
 				.catch(() => {})
 		}
-	}
+	} 
+	useEffect(() => {
+		API
+		.get("/files")
+		.then(result => setFileData([...result.data]))
+	}, [])
 
 	return (
 		<div className="App" key="App">
@@ -38,9 +44,15 @@ function App() {
 			/>
 			{fileData &&
 				fileData.map((file) => (
+					<>
 					<div data-testid="files-table" key={file._object_name}>
 						{file._object_name}
 					</div>
+					
+					<div key={file._size}>
+						{`${file._size} Bytes`}
+					</div>
+					</>
 				))}
 		</div>
 	)
