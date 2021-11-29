@@ -1,7 +1,8 @@
 import { DropzoneArea } from 'material-ui-dropzone'
 import { useEffect, useState } from 'react'
 import './App.css'
-import { API } from './config/axios'
+import API from './config/axios'
+import fileDownload from 'js-file-download'
 
 type FileData = {
 	_bucket_name: string
@@ -23,14 +24,25 @@ function App() {
 				},
 			})
 				.then((result) => setFileData([...result.data]))
-				.catch(() => {})
+				.catch(() => { })
 		}
-	} 
+	}
 	useEffect(() => {
 		API
-		.get("/files")
-		.then(result => setFileData([...result.data]))
+			.get("/files/list")
+			.then(result => setFileData([...result.data])).catch((err) => {console.log(err)})
 	}, [])
+
+	const handleDownload = (file: FileData) => {
+		API
+			.get(`/files`, {
+				params: {
+					name: file._object_name
+				},
+				responseType: 'blob'
+			})
+			.then(response => fileDownload(response.data, file._object_name))
+	}
 
 	return (
 		<div className="App" key="App">
@@ -45,13 +57,15 @@ function App() {
 			{fileData &&
 				fileData.map((file) => (
 					<>
-					<div data-testid="files-table" key={file._object_name}>
-						{file._object_name}
-					</div>
-					
-					<div key={file._size}>
-						{`${file._size} Bytes`}
-					</div>
+						<div data-testid="files-table" key={file._object_name}>
+							{file._object_name}
+						</div>
+
+						<div key={file._size}>
+							{`${file._size} Bytes`}
+						</div>
+						<button aria-label="Download" onClick={() => handleDownload(file)}>Download</button>
+
 					</>
 				))}
 		</div>
