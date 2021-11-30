@@ -1,3 +1,4 @@
+import React from 'react'
 import { DropzoneArea } from 'material-ui-dropzone'
 import { useEffect, useState } from 'react'
 import './App.css'
@@ -55,8 +56,8 @@ function App() {
 				}}
 			/>
 			{fileData &&
-				fileData.map((file) => (
-					<>
+				fileData.map((file, index) => (
+					<React.Fragment key={index}>
 						<div data-testid="files-table" key={file._object_name}>
 							{file._object_name}
 						</div>
@@ -66,7 +67,7 @@ function App() {
 						</div>
 						<button aria-label="Download" onClick={() => handleDownload(file)}>Download</button>
 
-					</>
+					</React.Fragment>
 				))}
 		</div>
 	)

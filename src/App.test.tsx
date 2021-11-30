@@ -2,6 +2,9 @@ import { queryByAttribute, render, RenderResult, screen, waitFor } from '@testin
 import App from './App'
 import axios from 'jest-mock-axios'
 import user from '@testing-library/user-event'
+// import { window } from './__mocks__/window'
+
+// jest.mock("./__mocks__/window")
 
 describe('App', () => {
   let filename: string;
@@ -9,7 +12,7 @@ describe('App', () => {
   let file: File;
   let filesize: string;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     filename = `${randomString(6)}.json`
 
     const str = JSON.stringify('boo')
@@ -106,14 +109,26 @@ describe('App', () => {
 
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalled()
-      expect(axios.get).toHaveBeenCalledWith("/files")
+      expect(axios.get).toHaveBeenCalledWith("/files/list")
     })
-
-
   })
+  // TODO: Start HERE Tom
+  // it('should have an element that can hold a logo', async () => {
+  //   //When the page loads
+  //   //You can get the getters from the render function here.
+  //   const { getByTestId } = render(<App />)
+  //   //There should be an element holding a logo
+  //   const logoElement = getByTestId('logo')
+  //   await waitFor(() => {
+  //     expect(logoElement).toBeInTheDocument()
+  //   })
 
-  describe('download', async () => {
+  // })
+
+
+  describe('download', () => {
     let renderResult: RenderResult
+    global.URL.createObjectURL = jest.fn()
     beforeEach(async () => {
       renderResult = render(<App />)
       await waitFor(() => {
@@ -134,15 +149,17 @@ describe('App', () => {
     })
 
     it('calls the backend when the Download button is clicked', async () => {
-      const { getByLabelText } = renderResult
+      //@ts-ignore
+      window.navigator.msSaveOrOpenBlob = jest.fn()
+
+      const { getByLabelText, container } = renderResult
       user.click(getByLabelText("Download"))
       await waitFor(() => {
-        expect(axios.get).toHaveBeenCalledWith(`/files?name=${filename}`)
+        expect(axios.get).toHaveBeenCalledWith('/files/list')
+        expect(axios.get).toHaveBeenCalledWith(`/files`, { params: { name: filename }, responseType: 'blob' })
       })
     })
-
   })
-
 })
 
 
