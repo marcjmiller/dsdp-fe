@@ -112,18 +112,18 @@ describe('App', () => {
       expect(axios.get).toHaveBeenCalledWith("/files/list")
     })
   })
-  // TODO: Start HERE Tom
-  // it('should have an element that can hold a logo', async () => {
-  //   //When the page loads
-  //   //You can get the getters from the render function here.
-  //   const { getByTestId } = render(<App />)
-  //   //There should be an element holding a logo
-  //   const logoElement = getByTestId('logo')
-  //   await waitFor(() => {
-  //     expect(logoElement).toBeInTheDocument()
-  //   })
 
-  // })
+  // TODO: Start HERE Tom
+  it('should have an element that can hold a logo', async () => {
+    //When the page loads
+    //You can get the getters from the render function here.
+    const { getByTestId } = render(<App />)
+    //There should be an element holding a logo
+    const logoElement = getByTestId('logo')
+    await waitFor(() => {
+      expect(logoElement).toBeInTheDocument()
+    })
+  })
 
 
   describe('download', () => {

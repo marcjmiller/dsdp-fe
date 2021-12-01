@@ -47,6 +47,7 @@ function App() {
 
 	return (
 		<div className="App" key="App">
+      <img alt="DEVCOM Logo" src="DEVCOM.png" data-testid="logo" />
 			<DropzoneArea
 				showFileNames
 				onChange={handleFileUpload}
