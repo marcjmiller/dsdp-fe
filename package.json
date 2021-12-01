@@ -25,9 +25,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:ci": "react-scripts test --ci --watchAll=false",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.ts*",
-    "lint:fix": "eslint --fix src/**/*.ts*"
+    "lint:fix": "eslint --fix src/**/*.ts*",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -64,6 +66,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.27.0",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "husky": "^7.0.0",
     "jest-mock-axios": "^4.4.1",
     "prettier": "^2.4.1"
   }
