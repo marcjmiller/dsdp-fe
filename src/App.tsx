@@ -1,9 +1,11 @@
 import React from 'react'
 import { DropzoneArea } from 'material-ui-dropzone'
 import { useEffect, useState } from 'react'
-import './App.css'
 import API from './config/axios'
 import fileDownload from 'js-file-download'
+import theme from './config/theme'
+import Download from '@material-ui/icons/CloudDownload'
+import { Box, CssBaseline, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ThemeProvider } from '@material-ui/core'
 
 type FileData = {
 	_bucket_name: string
@@ -31,7 +33,7 @@ function App() {
 	useEffect(() => {
 		API
 			.get("/files/list")
-			.then(result => setFileData([...result.data])).catch((err) => {console.log(err)})
+			.then(result => setFileData([...result.data])).catch((err) => { console.log(err) })
 	}, [])
 
 	const handleDownload = (file: FileData) => {
@@ -46,31 +48,43 @@ function App() {
 	}
 
 	return (
-		<div className="App" key="App">
-      <img alt="DEVCOM Logo" src="DEVCOM.png" data-testid="logo" />
-			<DropzoneArea
-				showFileNames
-				onChange={handleFileUpload}
-				inputProps={{
-					//@ts-ignore
-					'data-testid': 'dropzone',
-				}}
-			/>
-			{fileData &&
-				fileData.map((file, index) => (
-					<React.Fragment key={index}>
-						<div data-testid="files-table" key={file._object_name}>
-							{file._object_name}
-						</div>
-
-						<div key={file._size}>
-							{`${file._size} Bytes`}
-						</div>
-						<button aria-label="Download" onClick={() => handleDownload(file)}>Download</button>
-
-					</React.Fragment>
-				))}
-		</div>
+		<ThemeProvider theme={theme}>
+			<CssBaseline />
+			<Box px={5} display='flex' flexDirection='column' >
+				<img alt="DEVCOM Logo" src="DEVCOM.png" data-testid="logo" height={100} width={100}/>
+				<TableContainer>
+					<Table size='small'>
+						<TableHead>
+							<TableRow>
+								<TableCell>Name: </TableCell>
+								<TableCell>Size: </TableCell>
+								<TableCell>Actions: </TableCell>
+							</TableRow>
+						</TableHead>
+						<TableBody>
+							{fileData &&
+								fileData.map((file) => (
+									<TableRow>
+										<TableCell data-testid="files-table">{decodeURI(file._object_name)}</TableCell>
+										<TableCell>{file._size} Bytes</TableCell>
+										<TableCell>
+											<IconButton aria-label="Download" onClick={() => handleDownload(file)}><Download /></IconButton>
+										</TableCell>
+									</TableRow>
+								))}
+						</TableBody>
+					</Table>
+				</TableContainer>
+				<DropzoneArea
+					showFileNames
+					onChange={handleFileUpload}
+					inputProps={{
+						//@ts-ignore
+						'data-testid': 'dropzone',
+					}}
+				/>
+			</Box>
+		</ThemeProvider>
 	)
 }
 
