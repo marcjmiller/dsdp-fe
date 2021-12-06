@@ -5,6 +5,7 @@ import API from './config/axios'
 import fileDownload from 'js-file-download'
 import theme from './config/theme'
 import Download from '@material-ui/icons/CloudDownload'
+import Delete from '@material-ui/icons/Delete'
 import { Box, CssBaseline, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ThemeProvider } from '@material-ui/core'
 
 type FileData = {
@@ -52,11 +53,17 @@ function App() {
 			.then(response => fileDownload(response.data, file._object_name))
 	}
 
+	const handleDelete = (file: FileData) => {
+		API
+			.delete('/files')
+
+	}
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<Box px={5} display='flex' flexDirection='column' >
-				<img alt="DEVCOM Logo" src="DEVCOM.png" data-testid="logo" height={100} width={100}/>
+				<img alt="DEVCOM Logo" src="DEVCOM.png" data-testid="logo" height={100} width={100} />
 				<TableContainer>
 					<Table size='small'>
 						<TableHead>
@@ -74,6 +81,7 @@ function App() {
 										<TableCell>{file._size} Bytes</TableCell>
 										<TableCell>
 											<IconButton aria-label="Download" onClick={() => handleDownload(file)}><Download /></IconButton>
+											<IconButton aria-label="Delete" onClick={() => handleDelete(file)}> <Delete /></IconButton>
 										</TableCell>
 									</TableRow>
 								))}

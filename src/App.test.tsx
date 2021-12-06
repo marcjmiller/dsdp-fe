@@ -113,6 +113,21 @@ describe('App', () => {
 		})
 	})
 
+	it('should render the delete button', async () => {
+		const deleteButton = screen.getByLabelText('Delete')
+
+		expect(deleteButton).toBeInTheDocument()
+	})
+
+	it('should call the backend when the Delete button is pressed', async () => {
+		const deleteButton = screen.getByLabelText('Delete')
+
+		user.click(deleteButton)
+		await waitFor(() => {
+			expect(axios.delete).toHaveBeenCalledWith('/files')
+		})
+	})
+
 	describe('download', () => {
 		global.URL.createObjectURL = jest.fn()
 
