@@ -10,8 +10,8 @@ import App from './App'
 console.error = jest.fn()
 
 const headers = {
-  'Content-Type': 'multipart/form-data',
-  accept: 'application/json',
+	'Content-Type': 'multipart/form-data',
+	accept: 'application/json',
 }
 
 describe('App', () => {
@@ -39,7 +39,7 @@ describe('App', () => {
 		})
 
 		axios.get.mockResolvedValue({
-			data: [{ _bucket_name: 'bucket', _object_name: filename, _size: 10 }],
+			data: [{ _bucket_name: 'bucket', _object_name: filename, _size: file.size }],
 		})
 
 		render(<App />)
