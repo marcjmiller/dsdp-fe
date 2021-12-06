@@ -16,6 +16,12 @@ type FileData = {
 function App() {
 	const [fileData, setFileData] = useState<FileData[]>()
 
+	const getFiles = () => {
+		API
+			.get("/files/list")
+			.then(result => setFileData([...result.data])).catch((err) => { console.log(err) })
+	}
+
 	const handleFileUpload = (files: File[]) => {
 		if (files.length > 0) {
 			let formData = new FormData()
@@ -26,14 +32,13 @@ function App() {
 					accept: 'application/json',
 				},
 			})
-				.then((result) => setFileData([...result.data]))
+				.then(() => getFiles())
 				.catch(() => { })
 		}
 	}
+
 	useEffect(() => {
-		API
-			.get("/files/list")
-			.then(result => setFileData([...result.data])).catch((err) => { console.log(err) })
+		getFiles()
 	}, [])
 
 	const handleDownload = (file: FileData) => {
