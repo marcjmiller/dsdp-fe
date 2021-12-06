@@ -22,7 +22,7 @@ describe('App', () => {
 	let dropzone: HTMLElement
 
 
-	beforeEach(async () => {
+	beforeEach(() => {
 		filename = `${randomString(6)}.json`
 
 		const str = JSON.stringify('boo')
@@ -51,95 +51,105 @@ describe('App', () => {
 		file = new File([new Blob([''])], '')
 		formData = new FormData()
 	})
-
-	it('renders upload', () => {
-		const uploadElement = screen.getByText(
-			/drag and drop a file here or click/i,
-		)
-		expect(uploadElement).toBeInTheDocument()
-	})
-
-	it('uploads a file', async () => {
-		user.upload(dropzone, file)
-
-		await waitFor(() =>
-			expect(axios.post).toHaveBeenCalledWith('/files', formData, {
-				headers
-			}),
-		)
-	})
-
-	it('should load the files that have previously been uploaded to minio', async () => {
-		user.upload(dropzone, file)
-
-		await waitFor(() =>
-			expect(axios.post).toHaveBeenCalledWith('/files', formData, {
-				headers
-			}),
-		)
-
-		const filesElement = screen.getByTestId('files-table')
-		expect(filesElement).toBeInTheDocument()
-		expect(filesElement.innerHTML).toBe(filename)
-	})
-
-	it('should show the size of previously uploaded files', async () => {
-		user.upload(dropzone, file)
-
-		await waitFor(() =>
-			expect(axios.post).toHaveBeenCalledWith('/files', formData, {
-				headers
-			}),
-		)
-
-		const filesElement = screen.getByTestId('files-table')
-		expect(filesElement).toBeInTheDocument()
-		expect(filesElement.innerHTML).toBe(filename)
-		screen.getByText(filesize)
-	})
-
-	it('should show all the historic files that have been uploaded', async () => {
-		await waitFor(() => {
-			expect(axios.get).toHaveBeenCalled()
-			expect(axios.get).toHaveBeenCalledWith('/files/list')
-		})
-	})
-
 	it('should have an element that can hold a logo', async () => {
 		const logoElement = screen.getByTestId('logo')
 
-		await waitFor(() => {
-			expect(logoElement).toBeInTheDocument()
+		expect(logoElement).toBeInTheDocument()
+	})
+
+	describe("Upload", () => {
+		let filesElement: HTMLElement;
+		beforeEach(() => {
+			filesElement = screen.getByTestId('files-table')
+		})
+
+		afterEach(() => {
+
+		})
+
+		it('renders upload', () => {
+			expect(dropzone).toBeInTheDocument()
+		})
+
+		it('uploads a file', async () => {
+			user.upload(dropzone, file)
+
+			await waitFor(() =>
+				expect(axios.post).toHaveBeenCalledWith('/files', formData, {
+					headers
+				}),
+			)
+		})
+
+
+		it('should show the size of previously uploaded files', async () => {
+			user.upload(dropzone, file)
+
+			await waitFor(() =>
+				expect(axios.post).toHaveBeenCalledWith('/files', formData, {
+					headers
+				}),
+			)
+
+			expect(filesElement).toBeInTheDocument()
+			expect(filesElement.innerHTML).toBe(filename)
+			screen.getByText(filesize)
+		})
+
+		it('should show all the historic files that have been uploaded', async () => {
+			await waitFor(() => {
+				expect(axios.get).toHaveBeenCalled()
+				expect(axios.get).toHaveBeenCalledWith('/files/list')
+			})
+		})
+
+	})
+
+
+
+	describe('Delete', () => {
+		let deleteButton: HTMLElement;
+		beforeEach(() => {
+			deleteButton = screen.getByLabelText('Delete')
+
+			axios.delete.mockResolvedValue({})
+		})
+
+		it('should render the delete button', async () => {
+			expect(deleteButton).toBeInTheDocument()
+		})
+
+		it('should call the backend when the Delete button is pressed', async () => {
+			user.click(deleteButton)
+			await waitFor(() => {
+				expect(axios.delete).toHaveBeenCalledWith('/files', {
+					params: { name: filename }
+				})
+			})
+		})
+
+		it('should update the list of files', async () => {
+			const filesList = screen.getByTestId('files-list')
+
+			await waitFor(() => {
+				expect(axios.get).toHaveBeenCalled()
+				expect(filesList).not.toContain(screen.getByText(filename))
+			})
 		})
 	})
 
-	it('should render the delete button', async () => {
-		const deleteButton = screen.getByLabelText('Delete')
-
-		expect(deleteButton).toBeInTheDocument()
-	})
-
-	it('should call the backend when the Delete button is pressed', async () => {
-		const deleteButton = screen.getByLabelText('Delete')
-
-		user.click(deleteButton)
-		await waitFor(() => {
-			expect(axios.delete).toHaveBeenCalledWith('/files')
-		})
-	})
-
-	describe('download', () => {
+	describe('Download', () => {
 		global.URL.createObjectURL = jest.fn()
+		let downloadButton: HTMLElement
+		beforeEach(() => {
+			downloadButton = screen.getByLabelText('Download')
+		})
 
 		it('renders a download button', async () => {
-			const downloadButton = screen.getByLabelText('Download')
-
 			expect(downloadButton).toBeInTheDocument()
 		})
 
 		it('calls the backend when the Download button is clicked', async () => {
-			const downloadButton = screen.getByLabelText('Download')
-
 			user.click(downloadButton)
 			await waitFor(() => {
 				expect(axios.get).toHaveBeenCalledWith('/files/list')

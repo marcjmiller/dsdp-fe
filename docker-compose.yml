@@ -21,7 +21,7 @@ services:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: minio123
     volumes:
-      - ../backend/src:/app
+      - ../backend:/backend
   minio:
     image: quay.io/minio/minio:RELEASE.2021-11-05T09-16-26Z
     ports:
@@ -41,4 +41,5 @@ services:
       - data:/data
 
 volumes:
+  backend:
   data:

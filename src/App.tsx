@@ -55,8 +55,11 @@ function App() {
 
 	const handleDelete = (file: FileData) => {
 		API
-			.delete('/files')
-
+			.delete('/files', {
+				params: {
+					name: file._object_name
+				}
+			}).then(response => getFiles())
 	}
 
 	return (
@@ -73,7 +76,7 @@ function App() {
 								<TableCell>Actions: </TableCell>
 							</TableRow>
 						</TableHead>
-						<TableBody>
+						<TableBody data-testid="files-list">
 							{fileData &&
 								fileData.map((file) => (
 									<TableRow>
