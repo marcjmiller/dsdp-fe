@@ -7,6 +7,10 @@ deps:
   COPY src/ src/
   COPY public/ public/
 
+test:
+  FROM +deps
+  RUN yarn test --watchAll=false
+
 build:
   FROM +deps
   RUN yarn build
@@ -18,6 +22,6 @@ build-dev-image:
   SAVE IMAGE frontend:dev-build
 
 run-dev:
-  LOCALLY 
+  LOCALLY
   RUN earthly +build-dev-image
   RUN docker-compose up
