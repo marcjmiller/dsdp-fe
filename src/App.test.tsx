@@ -21,7 +21,6 @@ describe('App', () => {
 	let filesize: string
 	let dropzone: HTMLElement
 
-
 	beforeEach(() => {
 		filename = `${randomString(6)}.json`
 
@@ -39,7 +38,9 @@ describe('App', () => {
 		})
 
 		axios.get.mockResolvedValue({
-			data: [{ _bucket_name: 'bucket', _object_name: filename, _size: file.size }],
+			data: [
+				{ _bucket_name: 'bucket', _object_name: filename, _size: file.size },
+			],
 		})
 
 		render(<App />)
@@ -57,15 +58,13 @@ describe('App', () => {
 		expect(logoElement).toBeInTheDocument()
 	})
 
-	describe("Upload", () => {
-		let filesElement: HTMLElement;
+	describe('Upload', () => {
+		let filesElement: HTMLElement
 		beforeEach(() => {
 			filesElement = screen.getByTestId('files-table')
 		})
 
-		afterEach(() => {
-
-		})
+		afterEach(() => {})
 
 		it('renders upload', () => {
 			expect(dropzone).toBeInTheDocument()
@@ -76,18 +75,17 @@ describe('App', () => {
 
 			await waitFor(() =>
 				expect(axios.post).toHaveBeenCalledWith('/files', formData, {
-					headers
+					headers,
 				}),
 			)
 		})
-
 
 		it('should show the size of previously uploaded files', async () => {
 			user.upload(dropzone, file)
 
 			await waitFor(() =>
 				expect(axios.post).toHaveBeenCalledWith('/files', formData, {
-					headers
+					headers,
 				}),
 			)
 
@@ -102,13 +100,10 @@ describe('App', () => {
 				expect(axios.get).toHaveBeenCalledWith('/files/list')
 			})
 		})
-
 	})
 
-
-
 	describe('Delete', () => {
-		let deleteButton: HTMLElement;
+		let deleteButton: HTMLElement
 		beforeEach(() => {
 			deleteButton = screen.getByLabelText('Delete')
 
@@ -123,7 +118,7 @@ describe('App', () => {
 			user.click(deleteButton)
 			await waitFor(() => {
 				expect(axios.delete).toHaveBeenCalledWith('/files', {
-					params: { name: filename }
+					params: { name: filename },
 				})
 			})
 		})

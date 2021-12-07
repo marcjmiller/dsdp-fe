@@ -6,7 +6,18 @@ import fileDownload from 'js-file-download'
 import theme from './config/theme'
 import Download from '@material-ui/icons/CloudDownload'
 import Delete from '@material-ui/icons/Delete'
-import { Box, CssBaseline, IconButton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, ThemeProvider } from '@material-ui/core'
+import {
+	Box,
+	CssBaseline,
+	IconButton,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	ThemeProvider,
+} from '@material-ui/core'
 
 type FileData = {
 	_bucket_name: string
@@ -18,9 +29,11 @@ function App() {
 	const [fileData, setFileData] = useState<FileData[]>()
 
 	const getFiles = () => {
-		API
-			.get("/files/list")
-			.then(result => setFileData([...result.data])).catch((err) => { console.log(err) })
+		API.get('/files/list')
+			.then((result) => setFileData([...result.data]))
+			.catch((err) => {
+				console.log(err)
+			})
 	}
 
 	const handleFileUpload = (files: File[]) => {
@@ -34,7 +47,7 @@ function App() {
 				},
 			})
 				.then(() => getFiles())
-				.catch(() => { })
+				.catch(() => {})
 		}
 	}
 
@@ -43,32 +56,35 @@ function App() {
 	}, [])
 
 	const handleDownload = (file: FileData) => {
-		API
-			.get(`/files`, {
-				params: {
-					name: file._object_name
-				},
-				responseType: 'blob'
-			})
-			.then(response => fileDownload(response.data, file._object_name))
+		API.get(`/files`, {
+			params: {
+				name: file._object_name,
+			},
+			responseType: 'blob',
+		}).then((response) => fileDownload(response.data, file._object_name))
 	}
 
 	const handleDelete = (file: FileData) => {
-		API
-			.delete('/files', {
-				params: {
-					name: file._object_name
-				}
-			}).then(response => getFiles())
+		API.delete('/files', {
+			params: {
+				name: file._object_name,
+			},
+		}).then((response) => getFiles())
 	}
 
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
-			<Box px={5} display='flex' flexDirection='column' >
-				<img alt="DEVCOM Logo" src="DEVCOM.png" data-testid="logo" height={100} width={100} />
+			<Box px={5} display="flex" flexDirection="column">
+				<img
+					alt="DEVCOM Logo"
+					src="DEVCOM.png"
+					data-testid="logo"
+					height={100}
+					width={100}
+				/>
 				<TableContainer>
-					<Table size='small'>
+					<Table size="small">
 						<TableHead>
 							<TableRow>
 								<TableCell>Name: </TableCell>
@@ -80,11 +96,24 @@ function App() {
 							{fileData &&
 								fileData.map((file) => (
 									<TableRow>
-										<TableCell data-testid="files-table">{decodeURI(file._object_name)}</TableCell>
+										<TableCell data-testid="files-table">
+											{decodeURI(file._object_name)}
+										</TableCell>
 										<TableCell>{file._size} Bytes</TableCell>
 										<TableCell>
-											<IconButton aria-label="Download" onClick={() => handleDownload(file)}><Download /></IconButton>
-											<IconButton aria-label="Delete" onClick={() => handleDelete(file)}> <Delete /></IconButton>
+											<IconButton
+												aria-label="Download"
+												onClick={() => handleDownload(file)}
+											>
+												<Download />
+											</IconButton>
+											<IconButton
+												aria-label="Delete"
+												onClick={() => handleDelete(file)}
+											>
+												{' '}
+												<Delete />
+											</IconButton>
 										</TableCell>
 									</TableRow>
 								))}
