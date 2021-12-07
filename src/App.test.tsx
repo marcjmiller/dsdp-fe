@@ -52,7 +52,7 @@ describe('App', () => {
 		file = new File([new Blob([''])], '')
 		formData = new FormData()
 	})
-  
+
 	it('should have an element that can hold a logo', async () => {
 		const logoElement = screen.getByTestId('logo')
 
