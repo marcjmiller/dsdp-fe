@@ -1,11 +1,3 @@
-import React from 'react'
-import { DropzoneArea } from 'material-ui-dropzone'
-import { useEffect, useState } from 'react'
-import API from './config/axios'
-import fileDownload from 'js-file-download'
-import theme from './config/theme'
-import Download from '@material-ui/icons/CloudDownload'
-import Delete from '@material-ui/icons/Delete'
 import {
 	Box,
 	CssBaseline,
@@ -18,6 +10,13 @@ import {
 	TableRow,
 	ThemeProvider,
 } from '@material-ui/core'
+import Download from '@material-ui/icons/CloudDownload'
+import Delete from '@material-ui/icons/Delete'
+import fileDownload from 'js-file-download'
+import { DropzoneArea } from 'material-ui-dropzone'
+import React, { useEffect, useState } from 'react'
+import API from './config/axios'
+import theme from './config/theme'
 
 type FileData = {
 	_bucket_name: string
@@ -69,7 +68,7 @@ function App() {
 			params: {
 				name: file._object_name,
 			},
-		}).then((response) => getFiles())
+		}).then(() => getFiles())
 	}
 
 	return (
@@ -111,7 +110,6 @@ function App() {
 												aria-label="Delete"
 												onClick={() => handleDelete(file)}
 											>
-												{' '}
 												<Delete />
 											</IconButton>
 										</TableCell>
@@ -120,14 +118,17 @@ function App() {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				<DropzoneArea
-					showFileNames
-					onChange={handleFileUpload}
-					inputProps={{
-						//@ts-ignore
-						'data-testid': 'dropzone',
-					}}
-				/>
+				<Box marginY={'32px'}>
+					<DropzoneArea
+						showPreviewsInDropzone={false}
+						filesLimit={-1}
+						onChange={handleFileUpload}
+						inputProps={{
+							//@ts-ignore
+							'data-testid': 'dropzone',
+						}}
+					/>
+				</Box>
 			</Box>
 		</ThemeProvider>
 	)

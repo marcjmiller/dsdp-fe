@@ -52,6 +52,7 @@ describe('App', () => {
 		file = new File([new Blob([''])], '')
 		formData = new FormData()
 	})
+  
 	it('should have an element that can hold a logo', async () => {
 		const logoElement = screen.getByTestId('logo')
 
@@ -60,6 +61,7 @@ describe('App', () => {
 
 	describe('Upload', () => {
 		let filesElement: HTMLElement
+
 		beforeEach(() => {
 			filesElement = screen.getByTestId('files-table')
 		})
@@ -104,6 +106,7 @@ describe('App', () => {
 
 	describe('Delete', () => {
 		let deleteButton: HTMLElement
+
 		beforeEach(() => {
 			deleteButton = screen.getByLabelText('Delete')
 
@@ -136,6 +139,7 @@ describe('App', () => {
 	describe('Download', () => {
 		global.URL.createObjectURL = jest.fn()
 		let downloadButton: HTMLElement
+
 		beforeEach(() => {
 			downloadButton = screen.getByLabelText('Download')
 		})
