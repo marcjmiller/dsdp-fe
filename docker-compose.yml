@@ -12,6 +12,7 @@ services:
       - ./:/app
   api: 
     image: backend:dev-build
+    working_dir: /app
     ports:
       - 8080:8000
     depends_on:
@@ -21,7 +22,7 @@ services:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: minio123
     volumes:
-      - ../backend:/backend
+      - ../backend:./backend
   minio:
     image: quay.io/minio/minio:RELEASE.2021-11-05T09-16-26Z
     ports:
