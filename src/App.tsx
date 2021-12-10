@@ -30,9 +30,6 @@ function App() {
 	const getFiles = () => {
 		API.get('/files/list')
 			.then((result) => setFileData([...result.data]))
-			.catch((err) => {
-				console.log(err)
-			})
 	}
 
 	const handleFileUpload = (files: File[]) => {
@@ -46,7 +43,6 @@ function App() {
 				},
 			})
 				.then(() => getFiles())
-				.catch(() => {})
 		}
 	}
 
