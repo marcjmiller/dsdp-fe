@@ -42,5 +42,4 @@ services:
       - data:/data
 
 volumes:
-  backend:
   data:
