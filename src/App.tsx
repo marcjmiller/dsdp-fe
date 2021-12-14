@@ -28,8 +28,7 @@ function App() {
 	const [fileData, setFileData] = useState<FileData[]>()
 
 	const getFiles = () => {
-		API.get('/files/list')
-			.then((result) => setFileData([...result.data]))
+		API.get('/files/list').then((result) => setFileData([...result.data]))
 	}
 
 	const handleFileUpload = (files: File[]) => {
@@ -41,8 +40,7 @@ function App() {
 					'Content-Type': 'multipart/form-data',
 					accept: 'application/json',
 				},
-			})
-				.then(() => getFiles())
+			}).then(() => getFiles())
 		}
 	}
 
