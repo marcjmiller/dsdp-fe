@@ -2,11 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import user from '@testing-library/user-event'
 import axios from 'jest-mock-axios'
 import App from './App'
-// import { window } from './__mocks__/window'
 
-// jest.mock("./__mocks__/window")
-
-// Removes the `not wrapped in act()` error messages, as well as all others (oops)
 console.error = jest.fn()
 
 const headers = {
@@ -66,8 +62,6 @@ describe('App', () => {
 			filesElement = screen.getByTestId('files-table')
 		})
 
-		afterEach(() => {})
-
 		it('renders upload', () => {
 			expect(dropzone).toBeInTheDocument()
 		})
@@ -83,14 +77,6 @@ describe('App', () => {
 		})
 
 		it('should show the size of previously uploaded files', async () => {
-			user.upload(dropzone, file)
-
-			await waitFor(() =>
-				expect(axios.post).toHaveBeenCalledWith('/files', formData, {
-					headers,
-				}),
-			)
-
 			expect(filesElement).toBeInTheDocument()
 			expect(filesElement.innerHTML).toBe(filename)
 			screen.getByText(filesize)

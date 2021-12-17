@@ -15,7 +15,7 @@ import Delete from '@material-ui/icons/Delete'
 import fileDownload from 'js-file-download'
 import { DropzoneArea } from 'material-ui-dropzone'
 import React, { useEffect, useState } from 'react'
-import API from './config/axios'
+import API from './config/API'
 import theme from './config/theme'
 
 type FileData = {
