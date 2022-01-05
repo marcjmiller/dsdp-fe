@@ -74,8 +74,8 @@ describe('App', () => {
 					headers,
 				}),
 			)
-      
-      expect(screen.getByText(filename)).toBeInTheDocument();
+
+			expect(screen.getByText(filename)).toBeInTheDocument()
 		})
 
 		it('should show the size of previously uploaded files', async () => {
