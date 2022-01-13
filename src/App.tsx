@@ -15,7 +15,7 @@ import Delete from '@material-ui/icons/Delete'
 import fileDownload from 'js-file-download'
 import { DropzoneArea } from 'material-ui-dropzone'
 import React, { useEffect, useState } from 'react'
-import API from './config/API'
+import axios from 'axios'
 import theme from './config/theme'
 
 type FileData = {
@@ -28,30 +28,21 @@ function App() {
 	const [fileData, setFileData] = useState<FileData[]>()
 
 	const getFiles = () => {
-		API.get('/files/list', {
-			proxy: {
-				protocol: 'http',
-				host: 'backend',
-				port: 8080,
-			},
-		}).then((result) => setFileData([...result.data]))
+		axios.get('/api/files/list').then((result) => setFileData([...result.data]))
 	}
 
 	const handleFileUpload = (files: File[]) => {
 		if (files.length > 0) {
 			let formData = new FormData()
 			files.forEach((file) => formData.append('files', file))
-			API.post<FileData[]>('/files', formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-					accept: 'application/json',
-				},
-				proxy: {
-					protocol: 'http',
-					host: 'localhost',
-					port: 8080,
-				},
-			}).then(() => getFiles())
+			axios
+				.post<FileData[]>('/api/files', formData, {
+					headers: {
+						'Content-Type': 'multipart/form-data',
+						accept: 'application/json',
+					},
+				})
+				.then(() => getFiles())
 		}
 	}
 
@@ -60,20 +51,24 @@ function App() {
 	}, [])
 
 	const handleDownload = (file: FileData) => {
-		API.get(`/files`, {
-			params: {
-				name: file._object_name,
-			},
-			responseType: 'blob',
-		}).then((response) => fileDownload(response.data, file._object_name))
+		axios
+			.get(`/api/files`, {
+				params: {
+					name: file._object_name,
+				},
+				responseType: 'blob',
+			})
+			.then((response) => fileDownload(response.data, file._object_name))
 	}
 
 	const handleDelete = (file: FileData) => {
-		API.delete('/files', {
-			params: {
-				name: file._object_name,
-			},
-		}).then(() => getFiles())
+		axios
+			.delete('/api/files', {
+				params: {
+					name: file._object_name,
+				},
+			})
+			.then(() => getFiles())
 	}
 
 	return (

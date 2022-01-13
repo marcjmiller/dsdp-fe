@@ -3,6 +3,8 @@ version: '3.7'
 services:
   web:
     image: frontend:dev-build
+    expose: 
+      - 3000
     ports:
       - 3000:3000
     environment:
@@ -12,6 +14,8 @@ services:
       - ./:/app
   api:
     image: backend:dev-build
+    expose: 
+      - 8080
     ports:
       - 8080:8000
     depends_on:
