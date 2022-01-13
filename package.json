@@ -37,6 +37,7 @@
     "test:e2e": "start-server-and-test server http://localhost:3000 e2e",
     "format": "prettier --write './src/**/*.{ts,tsx,css}'"
   },
+  "proxy": "http://backend:8080",
   "jest": {
     "coverageThreshold": {
       "global": {
