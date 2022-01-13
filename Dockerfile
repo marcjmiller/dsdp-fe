@@ -6,6 +6,8 @@ WORKDIR /home/node
 
 COPY --chown=node:node . .
 
+ENV REACT_APP_BASE_URL=https://dsdp.staging.dso.mil/backend
+
 RUN npm run build
 
 # Stage 2
