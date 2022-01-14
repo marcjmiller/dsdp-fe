@@ -70,7 +70,7 @@ describe('App', () => {
 			user.upload(dropzone, file)
 
 			await waitFor(() =>
-				expect(axios.post).toHaveBeenCalledWith('/files', formData, {
+				expect(axios.post).toHaveBeenCalledWith('/api/files', formData, {
 					headers,
 				}),
 			)
@@ -87,7 +87,7 @@ describe('App', () => {
 		it('should show all the historic files that have been uploaded', async () => {
 			await waitFor(() => {
 				expect(axios.get).toHaveBeenCalled()
-				expect(axios.get).toHaveBeenCalledWith('/files/list')
+				expect(axios.get).toHaveBeenCalledWith('/api/files/list')
 			})
 		})
 	})
@@ -108,7 +108,7 @@ describe('App', () => {
 		it('should call the backend when the Delete button is pressed', async () => {
 			user.click(deleteButton)
 			await waitFor(() => {
-				expect(axios.delete).toHaveBeenCalledWith('/files', {
+				expect(axios.delete).toHaveBeenCalledWith('/api/files', {
 					params: { name: filename },
 				})
 			})
@@ -139,8 +139,8 @@ describe('App', () => {
 		it('calls the backend when the Download button is clicked', async () => {
 			user.click(downloadButton)
 			await waitFor(() => {
-				expect(axios.get).toHaveBeenCalledWith('/files/list')
-				expect(axios.get).toHaveBeenCalledWith('/files', {
+				expect(axios.get).toHaveBeenCalledWith('/api/files/list')
+				expect(axios.get).toHaveBeenCalledWith('/api/files', {
 					params: { name: filename },
 					responseType: 'blob',
 				})
