@@ -3,8 +3,6 @@ version: '3.7'
 services:
   web:
     image: frontend:dev-build
-    expose: 
-      - 3000
     ports:
       - 3000:3000
     environment:
@@ -14,8 +12,6 @@ services:
       - ./:/app
   api:
     image: backend:dev-build
-    expose: 
-      - 8080
     ports:
       - 8080:8000
     depends_on:
@@ -25,7 +21,7 @@ services:
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: minio123
     volumes:
-      - ../backend:/backend
+      - ../backend:/home/python/
   minio:
     image: quay.io/minio/minio:RELEASE.2021-11-05T09-16-26Z
     ports:
