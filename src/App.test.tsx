@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react'
 import user from '@testing-library/user-event'
-import axios from 'jest-mock-axios'
 import App from './App'
+import mockAxios from './__mocks__/axios'
 
 console.error = jest.fn()
 
@@ -27,29 +27,41 @@ describe('App', () => {
 
 		formData.append('files', file)
 
-		axios.post.mockResolvedValueOnce({
+		mockAxios.post.mockResolvedValueOnce({
 			data: [
 				{ _bucket_name: 'bucket', _object_name: filename, _size: file.size },
 			],
 		})
 
-		axios.get.mockResolvedValue({
-			data: [
-				{ _bucket_name: 'bucket', _object_name: filename, _size: file.size },
-			],
-		})
+		mockAxios.get
+			.mockResolvedValueOnce({
+				data: {
+					name: 'Marc Miller',
+					isAdmin: true,
+				},
+			})
+			.mockResolvedValue({
+				data: [
+					{
+						_bucket_name: 'bucket',
+						_object_name: filename,
+						_size: file.size,
+					},
+				],
+			})
+
+		mockAxios.delete.mockResolvedValue({})
 
 		render(<App />)
-		dropzone = screen.getByTestId(/dropzone/i)
 	})
 
 	afterEach(() => {
-		axios.reset()
+		mockAxios.reset()
 		file = new File([new Blob([''])], '')
 		formData = new FormData()
 	})
 
-	it('should have an element that can hold a logo', async () => {
+	it('should have an element that can hold a logo', () => {
 		const logoElement = screen.getByTestId('logo')
 
 		expect(logoElement).toBeInTheDocument()
@@ -62,15 +74,18 @@ describe('App', () => {
 			filesElement = screen.getByTestId('files-table')
 		})
 
-		it('renders upload', () => {
-			expect(dropzone).toBeInTheDocument()
+		it('renders upload', async () => {
+			// dropzone = screen.getByTestId(/dropzone/i)
+			expect(await screen.findByTestId(/dropzone/i)).toBeInTheDocument()
 		})
 
 		it('uploads a file', async () => {
+			dropzone = screen.getByTestId(/dropzone/i)
+
 			user.upload(dropzone, file)
 
 			await waitFor(() =>
-				expect(axios.post).toHaveBeenCalledWith('/api/files', formData, {
+				expect(mockAxios.post).toHaveBeenCalledWith('/api/files', formData, {
 					headers,
 				}),
 			)
@@ -86,8 +101,8 @@ describe('App', () => {
 
 		it('should show all the historic files that have been uploaded', async () => {
 			await waitFor(() => {
-				expect(axios.get).toHaveBeenCalled()
-				expect(axios.get).toHaveBeenCalledWith('/api/files/list')
+				expect(mockAxios.get).toHaveBeenCalled()
+				expect(mockAxios.get).toHaveBeenCalledWith('/api/files/list')
 			})
 		})
 	})
@@ -95,20 +110,16 @@ describe('App', () => {
 	describe('Delete', () => {
 		let deleteButton: HTMLElement
 
-		beforeEach(() => {
-			deleteButton = screen.getByLabelText('Delete')
-
-			axios.delete.mockResolvedValue({})
-		})
-
 		it('should render the delete button', async () => {
+			deleteButton = screen.getByLabelText('Delete')
 			expect(deleteButton).toBeInTheDocument()
 		})
 
 		it('should call the backend when the Delete button is pressed', async () => {
+			deleteButton = screen.getByLabelText('Delete')
 			user.click(deleteButton)
 			await waitFor(() => {
-				expect(axios.delete).toHaveBeenCalledWith('/api/files', {
+				expect(mockAxios.delete).toHaveBeenCalledWith('/api/files', {
 					params: { name: filename },
 				})
 			})
@@ -118,7 +129,7 @@ describe('App', () => {
 			const filesList = screen.getByTestId('files-list')
 
 			await waitFor(() => {
-				expect(axios.get).toHaveBeenCalled()
+				expect(mockAxios.get).toHaveBeenCalled()
 				expect(filesList).not.toContain(screen.getByText(filename))
 			})
 		})
@@ -128,19 +139,17 @@ describe('App', () => {
 		global.URL.createObjectURL = jest.fn()
 		let downloadButton: HTMLElement
 
-		beforeEach(() => {
-			downloadButton = screen.getByLabelText('Download')
-		})
-
 		it('renders a download button', async () => {
+			downloadButton = screen.getByLabelText('Download')
 			expect(downloadButton).toBeInTheDocument()
 		})
 
 		it('calls the backend when the Download button is clicked', async () => {
+			downloadButton = screen.getByLabelText('Download')
 			user.click(downloadButton)
 			await waitFor(() => {
-				expect(axios.get).toHaveBeenCalledWith('/api/files/list')
-				expect(axios.get).toHaveBeenCalledWith('/api/files', {
+				expect(mockAxios.get).toHaveBeenCalledWith('/api/files/list')
+				expect(mockAxios.get).toHaveBeenCalledWith('/api/files', {
 					params: { name: filename },
 					responseType: 'blob',
 				})
