@@ -14,7 +14,7 @@ import Download from '@material-ui/icons/CloudDownload'
 import Delete from '@material-ui/icons/Delete'
 import fileDownload from 'js-file-download'
 import { DropzoneArea } from 'material-ui-dropzone'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import theme from './config/theme'
 
@@ -24,12 +24,21 @@ type FileData = {
 	_size: number
 }
 
+type User = {
+	name: string
+	isAdmin: boolean
+}
+const getFiles = () => {
+	return axios.get('/api/files/list').then((result) => result.data)
+}
+
+const getUser = () => {
+	return axios.get('/api/whoami').then((result) => result.data)
+}
+
 function App() {
 	const [fileData, setFileData] = useState<FileData[]>()
-
-	const getFiles = () => {
-		axios.get('/api/files/list').then((result) => setFileData([...result.data]))
-	}
+	const [User, setUser] = useState<User>()
 
 	const handleFileUpload = (files: File[]) => {
 		if (files.length > 0) {
@@ -47,7 +56,8 @@ function App() {
 	}
 
 	useEffect(() => {
-		getFiles()
+		getUser().then((userData) => setUser(userData))
+		getFiles().then((fileData) => setFileData(fileData))
 	}, [])
 
 	const handleDownload = (file: FileData) => {
@@ -106,29 +116,33 @@ function App() {
 											>
 												<Download />
 											</IconButton>
-											<IconButton
-												aria-label="Delete"
-												onClick={() => handleDelete(file)}
-											>
-												<Delete />
-											</IconButton>
+											{User?.isAdmin && (
+												<IconButton
+													aria-label="Delete"
+													onClick={() => handleDelete(file)}
+												>
+													<Delete />
+												</IconButton>
+											)}
 										</TableCell>
 									</TableRow>
 								))}
 						</TableBody>
 					</Table>
 				</TableContainer>
-				<Box marginY={'32px'}>
-					<DropzoneArea
-						showPreviewsInDropzone={false}
-						filesLimit={-1}
-						onChange={handleFileUpload}
-						inputProps={{
-							//@ts-ignore
-							'data-testid': 'dropzone',
-						}}
-					/>
-				</Box>
+				{User?.isAdmin && (
+					<Box marginY={'32px'}>
+						<DropzoneArea
+							showPreviewsInDropzone={false}
+							filesLimit={-1}
+							onChange={handleFileUpload}
+							inputProps={{
+								//@ts-ignore
+								'data-testid': 'dropzone',
+							}}
+						/>
+					</Box>
+				)}
 			</Box>
 		</ThemeProvider>
 	)
