@@ -26,20 +26,19 @@ type FileData = {
 
 type User = {
 	name: string
-	is_admin: boolean
+	isAdmin: boolean
 }
-
-function App() {
-	const [fileData, setFileData] = useState<FileData[]>()
-	const [User, setUser] = useState<User>({} as User)
-
 	const getFiles = () => {
-		axios.get('/api/files/list').then((result) => setFileData(result.data))
+		return axios.get('/api/files/list').then((result) => result.data)
 	}
 
 	const getUser = () => {
-		axios.get('/api/whoami').then((result) => setUser(result.data))
+		return axios.get('/api/whoami').then((result) => result.data)
 	}
+
+function App() {
+	const [fileData, setFileData] = useState<FileData[]>()
+	const [User, setUser] = useState<User>()
 
 	const handleFileUpload = (files: File[]) => {
 		if (files.length > 0) {
@@ -57,8 +56,8 @@ function App() {
 	}
 
 	useEffect(() => {
-		getUser()
-		getFiles()
+		getUser().then((userData) => setUser(userData))
+		getFiles().then((fileData) => setFileData(fileData))
 	}, [])
 
 	const handleDownload = (file: FileData) => {
@@ -117,7 +116,7 @@ function App() {
 											>
 												<Download />
 											</IconButton>
-											{User?.is_admin && (
+											{User?.isAdmin && (
 												<IconButton
 													aria-label="Delete"
 													onClick={() => handleDelete(file)}
@@ -131,7 +130,7 @@ function App() {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				{User?.is_admin && (
+				{User?.isAdmin  && (
 					<Box marginY={'32px'}>
 						<DropzoneArea
 							showPreviewsInDropzone={false}
