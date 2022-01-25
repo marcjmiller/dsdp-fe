@@ -28,13 +28,13 @@ type User = {
 	name: string
 	isAdmin: boolean
 }
-	const getFiles = () => {
-		return axios.get('/api/files/list').then((result) => result.data)
-	}
+const getFiles = () => {
+	return axios.get('/api/files/list').then((result) => result.data)
+}
 
-	const getUser = () => {
-		return axios.get('/api/whoami').then((result) => result.data)
-	}
+const getUser = () => {
+	return axios.get('/api/whoami').then((result) => result.data)
+}
 
 function App() {
 	const [fileData, setFileData] = useState<FileData[]>()
@@ -130,7 +130,7 @@ function App() {
 						</TableBody>
 					</Table>
 				</TableContainer>
-				{User?.isAdmin  && (
+				{User?.isAdmin && (
 					<Box marginY={'32px'}>
 						<DropzoneArea
 							showPreviewsInDropzone={false}

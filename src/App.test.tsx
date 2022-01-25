@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { cleanup, render, screen, waitFor } from '@testing-library/react'
 import user from '@testing-library/user-event'
 import App from './App'
 import mockAxios from './__mocks__/axios'
@@ -57,6 +57,7 @@ describe('App', () => {
 
 	afterEach(() => {
 		mockAxios.reset()
+    cleanup()
 		file = new File([new Blob([''])], '')
 		formData = new FormData()
 	})
@@ -133,6 +134,30 @@ describe('App', () => {
 				expect(filesList).not.toContain(screen.getByText(filename))
 			})
 		})
+
+    it('should not show delete or dropzone for non-admins', () => {
+      mockAxios.get
+			.mockResolvedValueOnce({
+				data: {
+					name: 'Marc Miller',
+					isAdmin: false,
+				},
+			})
+			.mockResolvedValue({
+				data: [
+					{
+						_bucket_name: 'bucket',
+						_object_name: filename,
+						_size: file.size,
+					},
+				],
+			})
+    });
+    const noDeleteButton = screen.queryByLabelText('Delete')
+    expect(noDeleteButton).toBe(null)
+
+    const noDropzone = screen.queryByTestId(/dropzone/i)
+    expect(noDropzone).toBe(null)
 	})
 
 	describe('Download', () => {
