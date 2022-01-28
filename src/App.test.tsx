@@ -57,7 +57,7 @@ describe('App', () => {
 
 	afterEach(() => {
 		mockAxios.reset()
-    cleanup()
+		cleanup()
 		file = new File([new Blob([''])], '')
 		formData = new FormData()
 	})
@@ -135,29 +135,29 @@ describe('App', () => {
 			})
 		})
 
-    it('should not show delete or dropzone for non-admins', () => {
-      mockAxios.get
-			.mockResolvedValueOnce({
-				data: {
-					name: 'Marc Miller',
-					isAdmin: false,
-				},
-			})
-			.mockResolvedValue({
-				data: [
-					{
-						_bucket_name: 'bucket',
-						_object_name: filename,
-						_size: file.size,
+		it('should not show delete or dropzone for non-admins', () => {
+			mockAxios.get
+				.mockResolvedValueOnce({
+					data: {
+						name: 'Marc Miller',
+						isAdmin: false,
 					},
-				],
-			})
-    });
-    const noDeleteButton = screen.queryByLabelText('Delete')
-    expect(noDeleteButton).toBe(null)
+				})
+				.mockResolvedValue({
+					data: [
+						{
+							_bucket_name: 'bucket',
+							_object_name: filename,
+							_size: file.size,
+						},
+					],
+				})
+		})
+		const noDeleteButton = screen.queryByLabelText('Delete')
+		expect(noDeleteButton).toBe(null)
 
-    const noDropzone = screen.queryByTestId(/dropzone/i)
-    expect(noDropzone).toBe(null)
+		const noDropzone = screen.queryByTestId(/dropzone/i)
+		expect(noDropzone).toBe(null)
 	})
 
 	describe('Download', () => {
