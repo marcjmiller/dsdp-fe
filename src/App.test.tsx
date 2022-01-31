@@ -5,17 +5,12 @@ import mockAxios from './__mocks__/axios'
 
 console.error = jest.fn()
 
-const headers = {
-	'Content-Type': 'multipart/form-data',
-	accept: 'application/json',
-}
-
 describe('App', () => {
 	let filename: string
 	let formData: FormData = new FormData()
 	let file: File
 	let filesize: string
-	let dropzone: HTMLElement
+	let fileupload: HTMLElement
 
 	beforeEach(() => {
 		filename = `${randomString(6)}.json`
@@ -23,7 +18,7 @@ describe('App', () => {
 		const str = JSON.stringify('boo')
 		const blob = new Blob([str])
 		file = new File([blob], filename, { type: 'application/JSON' })
-		filesize = `${file.size} Bytes`
+		filesize = `${file.size} B`
 
 		formData.append('files', file)
 
@@ -77,18 +72,21 @@ describe('App', () => {
 
 		it('renders upload', async () => {
 			// dropzone = screen.getByTestId(/dropzone/i)
-			expect(await screen.findByTestId(/dropzone/i)).toBeInTheDocument()
+			expect(await screen.findByTestId(/fileupload$/i)).toBeInTheDocument()
+			expect(await screen.findByTestId(/fileuploadbox$/i)).toBeInTheDocument()
 		})
 
 		it('uploads a file', async () => {
-			dropzone = screen.getByTestId(/dropzone/i)
+			fileupload = screen.getByTestId(/fileupload$/i)
 
-			user.upload(dropzone, file)
+			user.upload(fileupload, file)
 
 			await waitFor(() =>
-				expect(mockAxios.post).toHaveBeenCalledWith('/api/files', formData, {
-					headers,
-				}),
+				expect(mockAxios.post).toHaveBeenCalledWith(
+					'/api/files',
+					formData,
+					expect.anything(),
+				),
 			)
 
 			expect(screen.getByText(filename)).toBeInTheDocument()

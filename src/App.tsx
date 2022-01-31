@@ -75,7 +75,7 @@ function App() {
 
 	useEffect(() => {
 		getUser().then((userData) => setUser(userData))
-		getFiles().then((fileData) => setFileData(fileData))
+		getFiles().then((newFileData) => setFileData(newFileData))
 	}, [])
 
 	const handleDownload = (file: FileData) => {
@@ -150,7 +150,7 @@ function App() {
 										<TableCell data-testid="files-table">
 											{decodeURI(file._object_name)}
 										</TableCell>
-										<TableCell >
+										<TableCell>
 											{file._size > 0 ? (
 												<>{prettyBytes(file._size)}</>
 											) : (
@@ -186,6 +186,7 @@ function App() {
 				</TableContainer>
 				{User?.isAdmin && (
 					<Box
+						data-testid="fileuploadbox"
 						marginY={'32px'}
 						padding={16}
 						height={64}
@@ -202,6 +203,7 @@ function App() {
 							Drag and drop a file here or click to upload a file.
 						</Typography>
 						<input
+							data-testid="fileupload"
 							//@ts-ignore
 							ref={ref}
 							type="file"
