@@ -53,6 +53,7 @@ function App() {
 			let formData = new FormData()
 			formData.append('files', files[0])
 
+			// istanbul ignore next
 			var config = {
 				onUploadProgress: function (progressEvent: any) {
 					var percentCompleted = Math.round(
@@ -66,7 +67,7 @@ function App() {
 				.post('/api/files', formData, config)
 				.then(() => getFiles().then((data) => setFileData(data)))
 				.catch((err) => {
-					console.log(err)
+					console.error(err)
 					getFiles().then((data) => setFileData(data))
 				})
 			setPercentComplete(0)
@@ -105,18 +106,22 @@ function App() {
 		ref.current?.click()
 	}
 
+	// istanbul ignore next
 	const dragOver = (e: any) => {
 		e.preventDefault()
 	}
 
+	// istanbul ignore next
 	const dragEnter = (e: any) => {
 		e.preventDefault()
 	}
 
+	// istanbul ignore next
 	const dragLeave = (e: any) => {
 		e.preventDefault()
 	}
 
+	// istanbul ignore next
 	const fileDrop = (e: any) => {
 		e.preventDefault()
 		const files = e.dataTransfer.files
@@ -188,8 +193,12 @@ function App() {
 					<Box
 						data-testid="fileuploadbox"
 						marginY={'32px'}
+						display={'flex'}
+						flexDirection={'column'}
+						justifyContent={'space-around'}
+						alignItems={'center'}
 						padding={16}
-						height={64}
+						color={'gray'}
 						width={'100%'}
 						onClick={fileInputClicked}
 						sx={{ border: '2px dashed gray' }}
@@ -199,7 +208,7 @@ function App() {
 						onDragEnter={dragEnter}
 						onDragLeave={dragLeave}
 					>
-						<Typography>
+						<Typography variant={'h4'}>
 							Drag and drop a file here or click to upload a file.
 						</Typography>
 						<input
