@@ -21,9 +21,8 @@ import theme from './config/theme'
 import prettyBytes from 'pretty-bytes'
 
 type FileData = {
-	_bucket_name: string
-	_object_name: string
-	_size: number
+	Key: string
+	Size: number
 }
 
 type User = {
@@ -41,60 +40,70 @@ const getUser = () => {
 
 function App() {
 	const [fileData, setFileData] = useState<FileData[]>([])
+	const [file, setFile] = useState<File|null>(null)
 	const [User, setUser] = useState<User>()
 	const [percentComplete, setPercentComplete] = useState(0)
 
-	const handleFileUpload = (files: FileList) => {
-		if (files.length > 0) {
-			setFileData([
-				...fileData,
-				{ _bucket_name: '', _object_name: files[0].name, _size: 0 } as FileData,
-			])
-			let formData = new FormData()
-			formData.append('files', files[0])
+	const handleFileUpload = (file: File) => {
 
-			// istanbul ignore next
-			var config = {
-				onUploadProgress: function (progressEvent: any) {
-					var percentCompleted = Math.round(
-						(progressEvent.loaded * 100) / progressEvent.total,
-					)
-					setPercentComplete(percentCompleted)
-				},
-			}
+		if (fileData) {
+      setFileData([...fileData, { Key: file.name, Size: 0 } as FileData])
+    } else {
+      setFileData([{ Key: file.name, Size: 0 } as FileData])
+    }
 
-			axios
-				.post('/api/files', formData, config)
-				.then(() => getFiles().then((data) => setFileData(data)))
-				.catch((err) => {
-					console.error(err)
-					getFiles().then((data) => setFileData(data))
-				})
-			setPercentComplete(0)
+		let formData = new FormData()
+		formData.append('file', file, file.name)
+
+		// istanbul ignore next
+		var config = {
+			onUploadProgress: function (progressEvent: any) {
+				var percentCompleted = Math.round(
+					(progressEvent.loaded * 100) / progressEvent.total,
+				)
+				setPercentComplete(percentCompleted)
+			},
 		}
+
+		axios
+			.post('/api/files', formData, config)
+			.then(() => getFiles().then((data) => data?.Contents && setFileData(data.Contents)))
+			.catch((err) => {
+				console.error(err)
+				getFiles().then((data) => data?.Contents && setFileData(data.Contents))
+			})
+		setPercentComplete(0)
 	}
 
 	useEffect(() => {
+		file && handleFileUpload(file)
+
+		return () => {
+			setFile(null)
+		}
+	}, [file])
+
+	useEffect(() => {
 		getUser().then((userData) => setUser(userData))
-		getFiles().then((newFileData) => setFileData(newFileData))
+		getFiles().then((newFileData) => newFileData?.Contents && setFileData(newFileData.Contents))
 	}, [])
 
 	const handleDownload = (file: FileData) => {
 		axios
 			.get(`/api/files`, {
 				params: {
-					name: file._object_name,
+					name: file.Key,
 				},
 				responseType: 'blob',
 			})
-			.then((response) => fileDownload(response.data, file._object_name))
+			.then((response) => fileDownload(response.data, file.Key))
 	}
 
 	const handleDelete = (file: FileData) => {
 		axios
 			.delete('/api/files', {
 				params: {
-					name: file._object_name,
+					name: file.Key,
 				},
 			})
 			.then(() => getFiles().then((data) => setFileData(data)))
@@ -107,17 +116,7 @@ function App() {
 	}
 
 	// istanbul ignore next
-	const dragOver = (e: any) => {
-		e.preventDefault()
-	}
-
-	// istanbul ignore next
-	const dragEnter = (e: any) => {
-		e.preventDefault()
-	}
-
-	// istanbul ignore next
-	const dragLeave = (e: any) => {
+	const preventDefault = (e: any) => {
 		e.preventDefault()
 	}
 
@@ -125,7 +124,7 @@ function App() {
 	const fileDrop = (e: any) => {
 		e.preventDefault()
 		const files = e.dataTransfer.files
-		handleFileUpload(files)
+		setFile(files[0])
 	}
 
 	return (
@@ -151,13 +150,13 @@ function App() {
 						<TableBody data-testid="files-list">
 							{fileData &&
 								fileData.map((file) => (
-									<TableRow>
+									<TableRow key={file.Key}>
 										<TableCell data-testid="files-table">
-											{decodeURI(file._object_name)}
+											{decodeURI(file.Key)}
 										</TableCell>
 										<TableCell>
-											{file._size > 0 ? (
-												<>{prettyBytes(file._size)}</>
+											{file.Size > 0 ? (
+												<>{prettyBytes(file.Size)}</>
 											) : (
 												<Box maxWidth={400}>
 													Uploading... {percentComplete}%{' '}
@@ -204,9 +203,9 @@ function App() {
 						sx={{ border: '2px dashed gray' }}
 						borderRadius={'8px'}
 						onDrop={fileDrop}
-						onDragOver={dragOver}
-						onDragEnter={dragEnter}
-						onDragLeave={dragLeave}
+						onDragOver={preventDefault}
+						onDragEnter={preventDefault}
+						onDragLeave={preventDefault}
 					>
 						<Typography variant={'h4'}>
 							Drag and drop a file here or click to upload a file.
@@ -218,7 +217,7 @@ function App() {
 							type="file"
 							hidden
 							onChange={({ target: { files } }) => {
-								files !== null && handleFileUpload(files)
+								files && setFile(files[0])
 							}}
 						/>
 					</Box>
