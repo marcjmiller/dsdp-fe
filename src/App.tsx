@@ -40,17 +40,16 @@ const getUser = () => {
 
 function App() {
 	const [fileData, setFileData] = useState<FileData[]>([])
-	const [file, setFile] = useState<File|null>(null)
+	const [file, setFile] = useState<File | null>(null)
 	const [User, setUser] = useState<User>()
 	const [percentComplete, setPercentComplete] = useState(0)
 
 	const handleFileUpload = (file: File) => {
-
 		if (fileData) {
-      setFileData([...fileData, { Key: file.name, Size: 0 } as FileData])
-    } else {
-      setFileData([{ Key: file.name, Size: 0 } as FileData])
-    }
+			setFileData([...fileData, { Key: file.name, Size: 0 } as FileData])
+		} else {
+			setFileData([{ Key: file.name, Size: 0 } as FileData])
+		}
 
 		let formData = new FormData()
 		formData.append('file', file, file.name)
@@ -67,7 +66,9 @@ function App() {
 
 		axios
 			.post('/api/files', formData, config)
-			.then(() => getFiles().then((data) => data?.Contents && setFileData(data.Contents)))
+			.then(() =>
+				getFiles().then((data) => data?.Contents && setFileData(data.Contents)),
+			)
 			.catch((err) => {
 				console.error(err)
 				getFiles().then((data) => data?.Contents && setFileData(data.Contents))
@@ -85,7 +86,10 @@ function App() {
 
 	useEffect(() => {
 		getUser().then((userData) => setUser(userData))
-		getFiles().then((newFileData) => newFileData?.Contents && setFileData(newFileData.Contents))
+		getFiles().then(
+			(newFileData) =>
+				newFileData?.Contents && setFileData(newFileData.Contents),
+		)
 	}, [])
 
 	const handleDownload = (file: FileData) => {
