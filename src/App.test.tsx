@@ -20,12 +20,10 @@ describe('App', () => {
 		file = new File([blob], filename, { type: 'application/JSON' })
 		filesize = `${file.size} B`
 
-		formData.append('files', file)
+		formData.append('file', file)
 
 		mockAxios.post.mockResolvedValueOnce({
-			data: [
-				{ _bucket_name: 'bucket', _object_name: filename, _size: file.size },
-			],
+			data: [{ Key: filename, Size: file.size }],
 		})
 
 		mockAxios.get
@@ -36,13 +34,14 @@ describe('App', () => {
 				},
 			})
 			.mockResolvedValue({
-				data: [
-					{
-						_bucket_name: 'bucket',
-						_object_name: filename,
-						_size: file.size,
-					},
-				],
+				data: {
+					Contents: [
+						{
+							Key: filename,
+							Size: file.size,
+						},
+					],
+				},
 			})
 
 		mockAxios.delete.mockResolvedValue({})
