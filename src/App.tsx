@@ -19,6 +19,7 @@ import { useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import theme from './config/theme'
 import prettyBytes from 'pretty-bytes'
+import Logo from './Logo'
 
 type FileData = {
 	Key: string
@@ -137,20 +138,20 @@ function App() {
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<Box px={5} display="flex" flexDirection="column">
-				<img
-					alt="DEVCOM Logo"
-					src="DEVCOM.png"
-					data-testid="logo"
-					height={100}
-					width={100}
-				/>
+				<Logo height={210} width={297} />
 				<TableContainer>
 					<Table size="small">
 						<TableHead>
 							<TableRow>
-								<TableCell>Name: </TableCell>
-								<TableCell>Size: </TableCell>
-								<TableCell>Actions: </TableCell>
+								<TableCell>
+									<Typography color="secondary">Name:</Typography>
+								</TableCell>
+								<TableCell>
+									<Typography color="secondary">Size:</Typography>
+								</TableCell>
+								<TableCell>
+									<Typography color="secondary">Actions:</Typography>
+								</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody data-testid="files-list">
@@ -165,7 +166,7 @@ function App() {
 												<>{prettyBytes(file.Size)}</>
 											) : (
 												<Box maxWidth={400}>
-													Uploading... {percentComplete}%{' '}
+													Uploading... {percentComplete}%
 													<LinearProgress
 														variant="determinate"
 														value={percentComplete}
@@ -206,14 +207,14 @@ function App() {
 						color={'gray'}
 						width={'100%'}
 						onClick={fileInputClicked}
-						sx={{ border: '2px dashed gray' }}
+						sx={{ border: '2px dashed #E7E247' }}
 						borderRadius={'8px'}
 						onDrop={fileDrop}
 						onDragOver={preventDefault}
 						onDragEnter={preventDefault}
 						onDragLeave={preventDefault}
 					>
-						<Typography variant={'h4'}>
+						<Typography variant={'h4'} color="secondary">
 							Drag and drop a file here or click to upload a file.
 						</Typography>
 						<input

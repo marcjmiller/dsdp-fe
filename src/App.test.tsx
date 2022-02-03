@@ -56,7 +56,7 @@ describe('App', () => {
 		formData = new FormData()
 	})
 
-	it('should have an element that can hold a logo', () => {
+	it('should render an svg logo', () => {
 		const logoElement = screen.getByTestId('logo')
 
 		expect(logoElement).toBeInTheDocument()

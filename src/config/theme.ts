@@ -2,20 +2,19 @@ import { createTheme } from '@material-ui/core'
 
 const theme = createTheme({
 	palette: {
-		type: 'light',
+		type: 'dark',
 		primary: {
 			main: '#3989c7',
 		},
 		secondary: {
-			main: '#0307fc',
+			main: '#E7E247',
 		},
 		error: {
 			main: '#d81010',
 		},
 	},
 	props: {
-		MuiButton: {
-			variant: 'contained',
+		MuiIconButton: {
 			color: 'secondary',
 		},
 	},
