@@ -110,7 +110,9 @@ function App() {
 					name: file.Key,
 				},
 			})
-			.then(() => getFiles().then((data) => setFileData(data)))
+			.then(() =>
+				getFiles().then((data) => data?.Contents && setFileData(data.Contents)),
+			)
 	}
 
 	const ref = useRef()
