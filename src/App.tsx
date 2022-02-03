@@ -44,15 +44,15 @@ function App() {
 	const [User, setUser] = useState<User>()
 	const [percentComplete, setPercentComplete] = useState(0)
 
-	const handleFileUpload = (file: File) => {
+	const handleFileUpload = (newFile: File) => {
 		if (fileData) {
-			setFileData([...fileData, { Key: file.name, Size: 0 } as FileData])
+			setFileData([...fileData, { Key: newFile.name, Size: 0 } as FileData])
 		} else {
-			setFileData([{ Key: file.name, Size: 0 } as FileData])
+			setFileData([{ Key: newFile.name, Size: 0 } as FileData])
 		}
 
 		let formData = new FormData()
-		formData.append('file', file, file.name)
+		formData.append('file', newFile, newFile.name)
 
 		// istanbul ignore next
 		var config = {
