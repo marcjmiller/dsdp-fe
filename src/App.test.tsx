@@ -23,7 +23,7 @@ describe('App', () => {
 		formData.append('file', file)
 
 		mockAxios.post.mockResolvedValueOnce({
-			data: [{ Key: filename, Size: file.size }],
+			data: [{ name: filename, size: file.size }],
 		})
 
 		mockAxios.get
@@ -34,14 +34,12 @@ describe('App', () => {
 				},
 			})
 			.mockResolvedValue({
-				data: {
-					Contents: [
-						{
-							Key: filename,
-							Size: file.size,
-						},
-					],
-				},
+				data: [
+					{
+						name: filename,
+						size: file.size,
+					},
+				],
 			})
 
 		mockAxios.delete.mockResolvedValue({})

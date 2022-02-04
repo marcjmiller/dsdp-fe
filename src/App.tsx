@@ -22,8 +22,8 @@ import prettyBytes from 'pretty-bytes'
 import Logo from './Logo'
 
 type FileData = {
-	Key: string
-	Size: number
+	name: string
+	size: number
 }
 
 type User = {
@@ -47,9 +47,9 @@ function App() {
 
 	const handleFileUpload = (newFile: File) => {
 		if (fileData) {
-			setFileData([...fileData, { Key: newFile.name, Size: 0 } as FileData])
+			setFileData([...fileData, { name: newFile.name, size: 0 } as FileData])
 		} else {
-			setFileData([{ Key: newFile.name, Size: 0 } as FileData])
+			setFileData([{ name: newFile.name, size: 0 } as FileData])
 		}
 
 		let formData = new FormData()
@@ -67,12 +67,10 @@ function App() {
 
 		axios
 			.post('/api/files', formData, config)
-			.then(() =>
-				getFiles().then((data) => data?.Contents && setFileData(data.Contents)),
-			)
+			.then(() => getFiles().then((data) => data && setFileData(data)))
 			.catch((err) => {
 				console.error(err)
-				getFiles().then((data) => data?.Contents && setFileData(data.Contents))
+				getFiles().then((data) => data && setFileData(data))
 			})
 		setPercentComplete(0)
 	}
@@ -87,33 +85,28 @@ function App() {
 
 	useEffect(() => {
 		getUser().then((userData) => setUser(userData))
-		getFiles().then(
-			(newFileData) =>
-				newFileData?.Contents && setFileData(newFileData.Contents),
-		)
+		getFiles().then((newFileData) => newFileData && setFileData(newFileData))
 	}, [])
 
 	const handleDownload = (file: FileData) => {
 		axios
 			.get(`/api/files`, {
 				params: {
-					name: file.Key,
+					name: file.name,
 				},
 				responseType: 'blob',
 			})
-			.then((response) => fileDownload(response.data, file.Key))
+			.then((response) => fileDownload(response.data, file.name))
 	}
 
 	const handleDelete = (file: FileData) => {
 		axios
 			.delete('/api/files', {
 				params: {
-					name: file.Key,
+					name: file.name,
 				},
 			})
-			.then(() =>
-				getFiles().then((data) => data?.Contents && setFileData(data.Contents)),
-			)
+			.then(() => getFiles().then((data) => data && setFileData(data)))
 	}
 
 	const ref = useRef()
@@ -157,13 +150,13 @@ function App() {
 						<TableBody data-testid="files-list">
 							{fileData &&
 								fileData.map((file) => (
-									<TableRow key={file.Key}>
+									<TableRow key={file.name}>
 										<TableCell data-testid="files-table">
-											{decodeURI(file.Key)}
+											{decodeURI(file.name)}
 										</TableCell>
 										<TableCell>
-											{file.Size > 0 ? (
-												<>{prettyBytes(file.Size)}</>
+											{file.size > 0 ? (
+												<>{prettyBytes(file.size)}</>
 											) : (
 												<Box maxWidth={400}>
 													Uploading... {percentComplete}%
