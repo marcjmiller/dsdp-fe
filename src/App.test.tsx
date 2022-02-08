@@ -49,6 +49,7 @@ describe('App', () => {
 
 	afterEach(() => {
 		mockAxios.reset()
+		jest.resetAllMocks()
 		cleanup()
 		file = new File([new Blob([''])], '')
 		formData = new FormData()
@@ -178,7 +179,7 @@ describe('App', () => {
 	})
 })
 
-const randomString = (length: number) => {
+export const randomString = (length: number) => {
 	let result = ''
 	const characters =
 		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
