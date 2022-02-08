@@ -1,21 +1,21 @@
 import { render, screen } from '@testing-library/react'
-import { FileData, User } from '../App'
+import { FileDataType, UserType } from '../App'
 import FileRow from './FileRow'
 
 console.error = jest.fn()
 
 describe('FileRow tests', () => {
-	const file: FileData = {
+	const file: FileDataType = {
 		name: 'hello.png',
 		size: 12345,
 	}
 
-	const adminUser: User = {
+	const adminUser: UserType = {
 		name: 'Ethan',
 		isAdmin: true,
 	}
 
-	const regularUser: User = {
+	const regularUser: UserType = {
 		name: 'Marc',
 		isAdmin: false,
 	}

@@ -7,12 +7,12 @@ import FileRow from './components/FileRow'
 import TableHeader from './components/TableHeader'
 import Logo from './Logo'
 
-export type FileData = {
+export type FileDataType = {
 	name: string
 	size: number
 }
 
-export type User = {
+export type UserType = {
 	name: string
 	isAdmin: boolean
 }
@@ -26,13 +26,13 @@ const getUser = () => {
 }
 
 const App = () => {
-	const [fileData, setFileData] = useState<FileData[]>([])
+	const [fileData, setFileData] = useState<FileDataType[]>([])
 	const [fileInput, setFileInput] = useState<File | null>(null)
-	const [User, setUser] = useState<User | null>(null)
+	const [User, setUser] = useState<UserType | null>(null)
 	const [percentComplete, setPercentComplete] = useState(0)
 
 	const handleFileUpload = (newFile: File) => {
-		setFileData([{ name: newFile.name, size: 0 } as FileData, ...fileData])
+		setFileData([{ name: newFile.name, size: 0 } as FileDataType, ...fileData])
 
 		let formData = new FormData()
 		formData.append('file', newFile, newFile.name)
@@ -70,7 +70,7 @@ const App = () => {
 		getFiles().then((newFileData) => newFileData && setFileData(newFileData))
 	}, [])
 
-	const handleDownload = (file: FileData) => {
+	const handleDownload = (file: FileDataType) => {
 		axios
 			.get(`/api/files`, {
 				params: {
@@ -81,7 +81,7 @@ const App = () => {
 			.then((response) => fileDownload(response.data, file.name))
 	}
 
-	const handleDelete = (file: FileData) => {
+	const handleDelete = (file: FileDataType) => {
 		axios
 			.delete('/api/files', {
 				params: {

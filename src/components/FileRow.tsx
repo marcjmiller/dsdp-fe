@@ -6,17 +6,17 @@ import {
 	TableRow,
 } from '@material-ui/core'
 import prettyBytes from 'pretty-bytes'
-import { FileData, User } from '../App'
+import { FileDataType, UserType } from '../App'
 import Download from '@material-ui/icons/CloudDownload'
 import Delete from '@material-ui/icons/Delete'
 import { FC } from 'react'
 
 interface FileRowProps {
-	file: FileData
-	User: User | null
+	file: FileDataType
+	User: UserType | null
 	percentComplete: number
-	handleDownload: (file: FileData) => void
-	handleDelete: (file: FileData) => void
+	handleDownload: (file: FileDataType) => void
+	handleDelete: (file: FileDataType) => void
 }
 
 const FileRow: FC<FileRowProps> = ({
