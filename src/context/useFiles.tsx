@@ -17,10 +17,10 @@ export interface FileContextType {
 
 export const FileContext = React.createContext<FileContextType>({
 	fileData: [],
-	handleDelete: () => {},
-	handleDownload: () => {},
+	handleDelete: () => null,
+	handleDownload: () => null,
 	percentComplete: 0,
-	setFileInput: () => {},
+	setFileInput: () => null,
 })
 
 export const useFiles = (): FileContextType => useContext(FileContext)
