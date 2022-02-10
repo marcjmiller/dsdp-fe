@@ -1,11 +1,11 @@
 import { Box, Typography } from '@material-ui/core'
-import React, { FC, useRef } from 'react'
+import { useRef } from 'react'
+import { useFiles } from '../context/useFiles'
+import { useUser } from '../context/useUser'
 
-interface DropZoneProps {
-	setFileInput: React.Dispatch<React.SetStateAction<File | null>>
-}
-
-const DropZone: FC<DropZoneProps> = ({ setFileInput }) => {
+const DropZone = () => {
+	const { setFileInput } = useFiles()
+	const { user } = useUser()
 	const ref = useRef()
 
 	const fileInputClicked = () => {
@@ -25,6 +25,9 @@ const DropZone: FC<DropZoneProps> = ({ setFileInput }) => {
 		setFileInput(files[0])
 	}
 
+	if (!user?.isAdmin) {
+		return <></>
+	}
 	return (
 		<Box
 			data-testid="fileuploadbox"
