@@ -5,27 +5,21 @@ import {
 	TableCell,
 	TableRow,
 } from '@material-ui/core'
-import prettyBytes from 'pretty-bytes'
-import { FileDataType, UserType } from '../App'
 import Download from '@material-ui/icons/CloudDownload'
 import Delete from '@material-ui/icons/Delete'
+import prettyBytes from 'pretty-bytes'
 import { FC } from 'react'
+import { useFiles, FileData } from '../context/useFiles'
+import { useUser } from '../context/useUser'
 
 interface FileRowProps {
-	file: FileDataType
-	User: UserType | null
-	percentComplete: number
-	handleDownload: (file: FileDataType) => void
-	handleDelete: (file: FileDataType) => void
+	file: FileData
 }
 
-const FileRow: FC<FileRowProps> = ({
-	file,
-	User,
-	percentComplete,
-	handleDelete,
-	handleDownload,
-}) => {
+const FileRow: FC<FileRowProps> = ({ file }) => {
+	const { handleDelete, handleDownload, percentComplete } = useFiles()
+	const { user } = useUser()
+
 	return (
 		<TableRow key={file.name}>
 			<TableCell data-testid="files-table">{decodeURI(file.name)}</TableCell>
@@ -43,7 +37,7 @@ const FileRow: FC<FileRowProps> = ({
 				<IconButton aria-label="Download" onClick={() => handleDownload(file)}>
 					<Download />
 				</IconButton>
-				{User?.isAdmin && (
+				{user?.isAdmin && (
 					<IconButton aria-label="Delete" onClick={() => handleDelete(file)}>
 						<Delete />
 					</IconButton>
