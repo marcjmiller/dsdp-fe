@@ -7,7 +7,7 @@ const FileTable = () => {
 
 	return (
 		<TableBody data-testid="files-list">
-			{fileData &&
+			{fileData.length > 0 &&
 				fileData.map((file) => <FileRow key={file.name} file={file} />)}
 		</TableBody>
 	)

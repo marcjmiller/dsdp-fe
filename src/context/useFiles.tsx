@@ -15,6 +15,7 @@ export interface FileContextType {
 	setFileInput: (file: File | null) => void
 }
 
+// istanbul ignore next
 export const FileContext = React.createContext<FileContextType>({
 	fileData: [],
 	handleDelete: () => null,
@@ -40,6 +41,7 @@ export const FileProvider: React.FC = ({ children }) => {
 		return () => {
 			setFileInput(null)
 		}
+		// eslint-disable-next-line
 	}, [fileInput])
 
 	const handleFileUpload = (newFile: File) => {
@@ -58,6 +60,7 @@ export const FileProvider: React.FC = ({ children }) => {
 			},
 		}
 
+		// istanbul ignore next
 		axios
 			.post('/api/files', formData, config)
 			.then(() => updateFiles())

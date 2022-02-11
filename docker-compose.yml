@@ -10,6 +10,8 @@ services:
       FORCE_COLOR: "true"
     volumes:
       - ./:/app
+    depends_on:
+      - api
   api:
     image: backend:dev-build
     ports:

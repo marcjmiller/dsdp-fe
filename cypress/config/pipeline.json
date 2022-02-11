@@ -1,0 +1,7 @@
+{
+	"video": false,
+	"baseUrl": "https://dsdp.staging.dso.mil/",
+	"backendUrl": "https://dsdp.staging.dso.mil/",
+	"chromeWebSecurity": false,
+	"pluginsFile": false
+}
