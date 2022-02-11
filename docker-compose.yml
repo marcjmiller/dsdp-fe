@@ -19,7 +19,7 @@ services:
     depends_on:
       - minio
     environment:
-      MINIO_URL: minio:9000
+      MINIO_HOST: minio
       MINIO_ACCESS_KEY: minio
       MINIO_SECRET_KEY: minio123
     volumes:

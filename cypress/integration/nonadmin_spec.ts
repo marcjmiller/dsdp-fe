@@ -11,11 +11,11 @@ describe('Non-admin user tests', () => {
 	)
 
 	before(() => {
-		cy.intercept('GET', '/api/whoami', (req) => {
+		cy.intercept('GET', 'api/whoami', (req) => {
 			req.headers['Authorization'] = `Bearer ${token}`
 		}).as('getUser')
 
-		cy.intercept('GET', '/api/files/list', {
+		cy.intercept('GET', 'api/files/list', {
 			statusCode: 200,
 			body: [{ name: 'DEVCOM1.png', size: 3986 }],
 		}).as('getFiles')

@@ -31,15 +31,17 @@
 		"lint": "eslint src/**/*.ts*",
 		"lint:fix": "eslint --fix {src,cypress}/**/*.ts*",
 		"prepare": "husky install",
-		"build-dev-images": "earthly +build-dev-image && cd ../backend && earthly +build-dev-image",
-		"server": "yarn build-dev-images && docker-compose up",
-		"cypress": "cypress open",
+    "build-dev-image:backend": "cd ../backend earthly +build-dev-image",
+    "build-dev-image:frontend": "earthly +build-dev-image",
+		"build-dev-images": "yarn build-dev-image:backend && yarn build-dev-image:frontend",
+		"server": "docker-compose up",
+		"cypress": "cypress open --config-file cypress/config/development.json",
 		"test:e2e": "start-server-and-test server http://localhost:3000 test:e2e-dev",
 		"format": "prettier --write './{src,cypress}/**/*.{ts,tsx,css,json}'",
 		"test:e2e-ci": "npx cypress run --browser chrome --config-file cypress/config/pipeline.json",
 		"test:e2e-dev": "npx cypress run --browser firefox --config-file cypress/config/development.json"
 	},
-	"proxy": "http://localhost:8000",
+	"proxy": "http://api:8000",
 	"jest": {
 		"coverageThreshold": {
 			"global": {

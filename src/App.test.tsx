@@ -41,10 +41,12 @@ const renderWithFileProvider = () => {
 			size: file.size,
 		},
 	])
+
 	mock.onGet('/api/whoami').reply(200, {
 		name: 'Marc',
 		isAdmin: true,
 	})
+
 	mock.onGet('/api/files').reply(200, {})
 
 	mock.onDelete('/api/files').reply(200, {})
