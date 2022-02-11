@@ -28,7 +28,7 @@
 		"test": "react-scripts test --coverage --watchAll",
 		"test:unit": "react-scripts test --coverage",
 		"eject": "react-scripts eject",
-		"lint": "eslint src/**/*.ts*",
+		"lint": "eslint {src,cypress}/**/*.ts*",
 		"lint:fix": "eslint --fix {src,cypress}/**/*.ts*",
 		"prepare": "husky install",
     "build-dev-image:backend": "cd ../backend earthly +build-dev-image",
