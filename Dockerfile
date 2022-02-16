@@ -11,7 +11,7 @@ ENV REACT_APP_BASE_URL=https://dsdp.staging.dso.mil/backend
 RUN npm run build
 
 # Stage 2
-FROM registry1.dso.mil/ironbank/opensource/nginx/nginx:1.21.1
+FROM registry1.dso.mil/ironbank/opensource/nginx/nginx:1.21.4
 
 WORKDIR /etc/nginx/html
 
