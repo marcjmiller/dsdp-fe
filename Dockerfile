@@ -1,4 +1,4 @@
-FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.5.0 AS builder
+FROM registry1.dso.mil/ironbank/opensource/nodejs/nodejs16:16.13.1 AS builder
 
 USER node
 
