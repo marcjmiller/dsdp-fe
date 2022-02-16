@@ -27,7 +27,7 @@ describe('Admin user tests', () => {
 			.as('dropZone')
 
 		cy.get('[data-testid="fileupload"]').attachFile('DEVCOM1.png')
-		cy.get('@dropZone').attachFile('cypress/fixtures/DEVCOM2.png', {
+		cy.get('@dropZone').attachFile('DEVCOM2.png', {
 			subjectType: 'drag-n-drop',
 		})
 		cy.get('.MuiTableRow-root').should('have.length', 2)
