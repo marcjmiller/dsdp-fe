@@ -31,7 +31,7 @@
 		"lint": "eslint {src,cypress}/**/*.ts*",
 		"lint:fix": "eslint --fix {src,cypress}/**/*.ts*",
 		"prepare": "husky install",
-    "build-dev-image:backend": "cd ../backend earthly +build-dev-image",
+    "build-dev-image:backend": "cd ../backend && earthly +build-dev-image",
     "build-dev-image:frontend": "earthly +build-dev-image",
 		"build-dev-images": "yarn build-dev-image:backend && yarn build-dev-image:frontend",
 		"server": "docker-compose up",
