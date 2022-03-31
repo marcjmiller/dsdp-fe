@@ -22,17 +22,24 @@ describe('Admin user tests', () => {
 	it('should be able to upload a file', () => {
 		cy.get('[data-testid="fileupload"]').should('exist')
 		cy.get('[data-testid="fileuploadbox"]').should('exist')
+
 		cy.contains('Drag and drop a file here or click to upload a file.')
 			.parent()
 			.as('dropZone')
 
-		cy.get('[data-testid="fileupload"]').attachFile('DEVCOM1.png')
-		cy.get('@dropZone').attachFile('DEVCOM2.png', {
-			subjectType: 'drag-n-drop',
-		})
-		cy.get('.MuiTableRow-root').should('have.length', 2)
-		cy.contains('DEVCOM1.png')
-		cy.contains('DEVCOM2.png')
+		cy.get('.MuiTableRow-root')
+			.then((el) => el.length)
+			.then((startRows) => {
+				cy.get('[data-testid="fileupload"]').attachFile('DEVCOM1.png')
+				cy.get('@dropZone').attachFile('DEVCOM2.png', {
+					subjectType: 'drag-n-drop',
+				})
+        cy.reload()
+				const afterRows = startRows + 2
+				cy.get('.MuiTableRow-root').should('have.length', afterRows)
+				cy.contains('DEVCOM1.png')
+				cy.contains('DEVCOM2.png')
+			})
 	})
 
 	it('should have the option to download a file', () => {
@@ -56,8 +63,6 @@ describe('Admin user tests', () => {
 
 		cy.wait('@refetchAfterDelete')
 		cy.contains('DEVCOM2.png')
-
-		cy.get('.MuiTableRow-root').should('have.length', 2)
 
 		cy.get('.MuiTableRow-root')
 			.contains('DEVCOM2.png')
