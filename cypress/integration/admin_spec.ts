@@ -34,7 +34,7 @@ describe('Admin user tests', () => {
 				cy.get('@dropZone').attachFile('DEVCOM2.png', {
 					subjectType: 'drag-n-drop',
 				})
-        cy.reload()
+				cy.reload()
 				const afterRows = startRows + 2
 				cy.get('.MuiTableRow-root').should('have.length', afterRows)
 				cy.contains('DEVCOM1.png')
