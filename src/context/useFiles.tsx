@@ -64,8 +64,7 @@ export const FileProvider: React.FC = ({ children }) => {
 		axios
 			.post('/api/files', formData, config)
 			.then(() => updateFiles())
-			.catch((err) => {
-				console.error(err)
+			.catch((_) => {
 				updateFiles()
 			})
 
