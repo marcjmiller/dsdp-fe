@@ -8,7 +8,7 @@ COPY --chown=node:node . .
 
 ENV REACT_APP_BASE_URL=https://dsdp.staging.dso.mil/backend
 
-RUN INLINE_RUNTIME_CHUNK=false npm run build
+RUN npm run build
 
 # Stage 2
 FROM registry1.dso.mil/ironbank/opensource/nginx/nginx:1.21.4
