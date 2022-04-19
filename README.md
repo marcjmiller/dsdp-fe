@@ -16,6 +16,7 @@
 - Clone the Frontend and Backend repos
   - `git clone https://code.il2.dso.mil/platform-one/products/gvsc/sec/dsdp/frontend.git`
   - `git clone https://code.il2.dso.mil/platform-one/products/gvsc/sec/dsdp/backend.git`
+- Change directory into the frontend: `cd frontend`
 - Run `yarn build-dev-images` to build container images for developing
 - Run `yarn server` to bring up docker-compose
 
