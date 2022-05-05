@@ -3,6 +3,9 @@
 - [Docker](https://docs.docker.com/engine/install/)
 - [Docker-compose](https://docs.docker.com/compose/install/)
 - [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
+- [Node 12+](https://github.com/nvm-sh/nvm) (Node Version Manager is suggested here)
+  - `nvm install 16`
+  - `nvm use 16`
 
 
 ## To get started with Development
@@ -17,6 +20,7 @@
   - `git clone https://code.il2.dso.mil/platform-one/products/gvsc/sec/dsdp/frontend.git`
   - `git clone https://code.il2.dso.mil/platform-one/products/gvsc/sec/dsdp/backend.git`
 - Change directory into the frontend: `cd frontend`
+- Run `yarn install` to locally install dependencies (only needed for local testing)
 - Run `yarn build-dev-images` to build container images for developing
 - Run `yarn server` to bring up docker-compose
 
