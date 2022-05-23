@@ -34,7 +34,7 @@
     "build-dev-image:backend": "cd ../backend && earthly +build-dev-image",
     "build-dev-image:frontend": "earthly +build-dev-image",
 		"build-dev-images": "yarn build-dev-image:backend && yarn build-dev-image:frontend",
-		"server": "docker-compose up",
+		"server": "docker compose up",
 		"cypress": "cypress open --config-file cypress/config/development.json",
 		"test:e2e": "start-server-and-test server http://localhost:3000 test:e2e-dev",
 		"format": "prettier --write './{src,cypress}/**/*.{ts,tsx,css,json}'",

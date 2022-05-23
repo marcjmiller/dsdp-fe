@@ -1,11 +1,11 @@
 ## Dependencies
-- [Earthly](https://earthly.dev/get-earthly)
 - [Docker](https://docs.docker.com/engine/install/)
-- [Docker-compose](https://docs.docker.com/compose/install/)
-- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
+- [Docker-compose v2+](https://docs.docker.com/compose/install/)
+- [Earthly](https://earthly.dev/get-earthly)
 - [Node 12+](https://github.com/nvm-sh/nvm) (Node Version Manager is suggested here)
   - `nvm install 16`
   - `nvm use 16`
+- [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable)
 
 
 ## To get started with Development
@@ -13,6 +13,9 @@
   - Docker ([Ubuntu here](https://docs.docker.com/engine/install/ubuntu/))
   - Docker-compose version 1.28.0 or later ([here](https://docs.docker.com/compose/install/))
   - Earthly (instructions [here](https://earthly.dev/get-earthly))
+  - [Node 12+](https://github.com/nvm-sh/nvm) (Node Version Manager is suggested here)
+    - `nvm install 16`
+    - `nvm use 16`
   - Yarn ([here](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable))
   - The frontend relies on the backend in order to make API calls and store data. View the following section for instructions on running both environments together.  
 ### Running the development environment
@@ -22,7 +25,7 @@
 - Change directory into the frontend: `cd frontend`
 - Run `yarn install` to locally install dependencies (only needed for local testing)
 - Run `yarn build-dev-images` to build container images for developing
-- Run `yarn server` to bring up docker-compose
+- Run `yarn server` to bring up docker compose
 
 ## Run tests
 - If you haven't already, run `yarn build-dev-images` to build the container images (needed for e2e tests)
