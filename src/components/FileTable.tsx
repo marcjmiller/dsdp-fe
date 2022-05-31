@@ -1,4 +1,4 @@
-import { TableBody } from '@material-ui/core'
+import { TableBody } from '@mui/material'
 import { useFiles } from '../context/useFiles'
 import FileRow from './FileRow'
 
