@@ -4,9 +4,9 @@ import {
 	LinearProgress,
 	TableCell,
 	TableRow,
-} from '@material-ui/core'
-import Download from '@material-ui/icons/CloudDownload'
-import Delete from '@material-ui/icons/Delete'
+} from '@mui/material'
+import Download from '@mui/icons-material/CloudDownload'
+import Delete from '@mui/icons-material/Delete'
 import prettyBytes from 'pretty-bytes'
 import { FC } from 'react'
 import { useFiles, FileData } from '../context/useFiles'
@@ -34,11 +34,19 @@ const FileRow: FC<FileRowProps> = ({ file }) => {
 				)}
 			</TableCell>
 			<TableCell>
-				<IconButton aria-label="Download" onClick={() => handleDownload(file)}>
+				<IconButton
+					aria-label="Download"
+					onClick={() => handleDownload(file)}
+					size="large"
+				>
 					<Download />
 				</IconButton>
 				{user?.isAdmin && (
-					<IconButton aria-label="Delete" onClick={() => handleDelete(file)}>
+					<IconButton
+						aria-label="Delete"
+						onClick={() => handleDelete(file)}
+						size="large"
+					>
 						<Delete />
 					</IconButton>
 				)}

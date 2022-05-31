@@ -1,4 +1,4 @@
-import { Box, Typography } from '@material-ui/core'
+import { Box, Typography } from '@mui/material'
 import { useRef } from 'react'
 import { useFiles } from '../context/useFiles'
 import { useUser } from '../context/useUser'
@@ -37,11 +37,10 @@ const DropZone = () => {
 			justifyContent={'space-around'}
 			alignItems={'center'}
 			padding={16}
-			color={'gray'}
 			width={'100%'}
 			onClick={fileInputClicked}
 			sx={{ border: '2px dashed #E7E247' }}
-			borderRadius={'8px'}
+			borderRadius="8px"
 			onDrop={fileDrop}
 			onDragOver={preventDefault}
 			onDragEnter={preventDefault}

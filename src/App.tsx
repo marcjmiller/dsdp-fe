@@ -1,4 +1,4 @@
-import { Box, Table, TableContainer } from '@material-ui/core'
+import { Box, Table, TableContainer } from '@mui/material'
 import DropZone from './components/DropZone'
 import FileTable from './components/FileTable'
 import TableHeader from './components/TableHeader'

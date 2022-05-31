@@ -1,8 +1,8 @@
-import { createTheme } from '@material-ui/core'
+import { createTheme } from '@mui/material'
 
 const theme = createTheme({
 	palette: {
-		type: 'dark',
+		mode: 'dark',
 		primary: {
 			main: '#3989c7',
 		},
@@ -13,23 +13,23 @@ const theme = createTheme({
 			main: '#d81010',
 		},
 	},
-	props: {
-		MuiIconButton: {
-			color: 'secondary',
-		},
-	},
-	overrides: {
+	components: {
 		MuiCssBaseline: {
-			'@global': {
+			styleOverrides: {
+				'#root': {
+					height: '100%',
+				},
 				html: {
 					height: '100%',
 				},
 				body: {
 					height: '100%',
 				},
-				'#root': {
-					height: '100%',
-				},
+			},
+		},
+		MuiIconButton: {
+			defaultProps: {
+				color: 'secondary',
 			},
 		},
 	},
