@@ -22,7 +22,7 @@ describe('Admin user tests', () => {
 
 	it('should be able to upload a file', () => {
 		cy.get('[data-testid="fileupload"]', { timeout: 10000 }).should('exist')
-		cy.get('[data-testid="fileuploadbox"]', { timeout: 10000 }).should('exist')
+		cy.get('[data-testid="dropzone"]', { timeout: 10000 }).should('exist')
 
 		cy.contains('Drag and drop a file here or click to upload a file.')
 			.parent()

@@ -1,11 +1,14 @@
 import { TableCell, TableHead, TableRow, Typography } from '@mui/material'
 
-const TableHeader = () => {
+const Header = () => {
 	return (
 		<TableHead>
 			<TableRow>
 				<TableCell>
 					<Typography color="secondary">Name:</Typography>
+				</TableCell>
+				<TableCell>
+					<Typography color="secondary">Release Type:</Typography>
 				</TableCell>
 				<TableCell>
 					<Typography color="secondary">Size:</Typography>
@@ -18,4 +21,4 @@ const TableHeader = () => {
 	)
 }
 
-export default TableHeader
+export default Header

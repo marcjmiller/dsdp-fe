@@ -1,9 +1,4 @@
-import {
-	CssBaseline,
-	ThemeProvider,
-	Theme,
-	StyledEngineProvider,
-} from '@mui/material'
+import { CssBaseline, StyledEngineProvider, ThemeProvider } from '@mui/material'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'

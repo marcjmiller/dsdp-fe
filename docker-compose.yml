@@ -9,11 +9,7 @@ services:
       CONTAINER: "true"
       FORCE_COLOR: "true"
     volumes:
-      - ./package.json:/app/package.json
-      - ./src:/app/src
-      - ./tsconfig.json:/app/tsconfig.json
-      - ./yarn.lock:/app/yarn.lock
-      - ./public:/app/public
+      - .:/app
     depends_on:
       - api
   api:
@@ -37,7 +33,7 @@ services:
       MINIO_ROOT_USER: minio
       MINIO_ROOT_PASSWORD: minio123
     hostname: minio
-    command: minio server /data
+    command: minio server /data --console-address ":9001"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s

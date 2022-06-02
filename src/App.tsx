@@ -1,26 +1,21 @@
-import { Box, Table, TableContainer } from '@mui/material'
-import DropZone from './components/DropZone'
-import FileTable from './components/FileTable'
-import TableHeader from './components/TableHeader'
+import { Box } from '@mui/material'
+import FilesTable from './components/Table'
 import Logo from './Logo'
-import { UserProvider } from './context/useUser'
-import { FileProvider } from './context/useFiles'
+import FileInputModal from './components/Modal'
+import FilesProvider from './context/Files/provider'
+import UserProvider from './context/User/provider'
+import Header from './components/Table/header'
 
 const App = () => {
 	return (
 		<UserProvider>
-			<FileProvider>
+			<FilesProvider>
 				<Box px={5} display="flex" flexDirection="column">
 					<Logo height={210} width={297} />
-					<TableContainer>
-						<Table size="small">
-							<TableHeader />
-							<FileTable />
-						</Table>
-					</TableContainer>
-					<DropZone />
+					<FileInputModal />
+					<FilesTable header={<Header />} />
 				</Box>
-			</FileProvider>
+			</FilesProvider>
 		</UserProvider>
 	)
 }
