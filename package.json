@@ -27,7 +27,7 @@
 		"prepare": "husky install",
 		"build-backend": "cd ../backend && earthly +build-dev-image",
 		"server": "earthly +run-dev",
-		"lint": "eslint {src,cypress}/**/*.{ts,tsx}",
+		"lint": "eslint {src,cypress}/**/*.ts*",
 		"lint:fix": "eslint --fix {src,cypress}/**/*.ts*",
 		"format": "prettier --write './{src,cypress}/**/*.{ts,tsx,css,json}'",
 		"cypress": "cypress open --config-file cypress/config/development.json",
@@ -48,7 +48,6 @@
 			}
 		},
 		"coveragePathIgnorePatterns": [
-			"AllTheProviders.ts",
 			"utils.ts",
 			"reportWebVitals.ts",
 			"theme.ts"
