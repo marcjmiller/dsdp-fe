@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/components/Table/.test.tsx", "src/components/Modal/.test.tsx", "src/components/Dropzone/.test.tsx"  ]
 }
