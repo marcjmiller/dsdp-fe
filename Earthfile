@@ -9,9 +9,8 @@ build-dev-image:
   ENTRYPOINT ["yarn", "start"]
   SAVE IMAGE frontend:dev-build
 
-run-dev:
-  LOCALLY
+build-dev:
   BUILD +build-dev-image
+  LOCALLY
   RUN yarn build-backend
   RUN yarn install
-  RUN docker compose up

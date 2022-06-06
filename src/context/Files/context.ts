@@ -17,6 +17,7 @@ const initialFileInputState = {
 	releaseType: '',
 }
 
+/* istanbul ignore next */
 const initialFileContext: FileContextType = {
 	fileData: [],
 	fileInput: initialFileInputState,

@@ -26,13 +26,13 @@
 		"eject": "react-scripts eject",
 		"prepare": "husky install",
 		"build-backend": "cd ../backend && earthly +build-dev-image",
-		"server": "earthly +run-dev",
+		"server": "earthly +build-dev && docker compose up",
 		"lint": "eslint {src,cypress}/**/*.ts*",
 		"lint:fix": "eslint --fix {src,cypress}/**/*.ts*",
 		"format": "prettier --write './{src,cypress}/**/*.{ts,tsx,css,json}'",
 		"cypress": "cypress open --config-file cypress/config/development.json",
 		"test": "react-scripts test --watchAll",
-		"test:unit": "react-scripts test --coverage",
+		"test:unit": "react-scripts test --coverage --watchAll",
 		"test:e2e": "start-server-and-test server http://localhost:3000 test:e2e-dev",
 		"test:e2e-ci": "npx cypress run --browser chrome --config-file cypress/config/pipeline.json",
 		"test:e2e-dev": "npx cypress run --browser firefox --config-file cypress/config/development.json"
@@ -50,7 +50,9 @@
 		"coveragePathIgnorePatterns": [
 			"utils.ts",
 			"reportWebVitals.ts",
-			"theme.ts"
+			"theme.ts",
+			"src/tests/*",
+			"src/index.tsx"
 		]
 	},
 	"eslintConfig": {

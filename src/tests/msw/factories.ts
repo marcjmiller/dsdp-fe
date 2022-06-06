@@ -1,4 +1,4 @@
-import { FileData } from '../../context/Files/types'
+import { FileData, Metadata } from '../../context/Files/types'
 
 export const newAdminUser = (name = 'Admin', isAdmin = false) => ({
 	name,
@@ -8,8 +8,13 @@ export const newAdminUser = (name = 'Admin', isAdmin = false) => ({
 export const newFileData = (
 	name = 'test.txt',
 	size = 12345,
-	metadata = { release_type: 'Out of Cycle' },
-): FileData => ({ name, size, metadata })
+	metadata?: Metadata,
+): FileData => {
+	if (!metadata) {
+		return { name, size }
+	}
+	return { name, size, metadata }
+}
 
 export const newFileDataList = (
 	extraFiles?: FileData[],

@@ -5,7 +5,7 @@ export type Metadata = {
 export type FileData = {
 	name: string
 	size: number
-	metadata: Metadata
+	metadata?: Metadata
 }
 
 export const releaseTypes = [

@@ -33,7 +33,7 @@ const FilesTable: FC<FilesTableProps> = ({ header }) => {
 								<TableCell data-testid="files-table">
 									{decodeURI(file.name)}
 								</TableCell>
-								{file.metadata.release_type !== '' ? (
+								{file.metadata && file.metadata.release_type ? (
 									<TableCell>{file.metadata.release_type}</TableCell>
 								) : (
 									<TableCell></TableCell>

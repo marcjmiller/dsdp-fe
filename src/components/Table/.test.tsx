@@ -7,6 +7,7 @@ import {
 	render,
 	screen,
 } from '../../tests/utils'
+import { newFileData } from '../../tests/msw/factories'
 jest.mock('pretty-bytes')
 
 const prettyMock = prettyBytes as jest.MockedFunction<typeof prettyBytes>
@@ -52,6 +53,14 @@ describe('Table', () => {
 		it('should should not render the delete button', () => {
 			expect(screen.queryByLabelText(/delete/i)).not.toBeInTheDocument()
 		})
+		it('should render without metadata', () => {
+			render(<FileTable header={<></>} />, {
+				FileProviderProps: {
+					...defaultFileProps,
+					fileData: [newFileData('Tonyssmilesarenice.txt', 100)],
+				},
+			})
+		})
 	})
 	describe('As a Admin', () => {
 		beforeEach(() => {
@@ -66,6 +75,7 @@ describe('Table', () => {
 				},
 			})
 		})
+
 		it('should call pretty bytes when file size is gt zero', () => {
 			expect(prettyMock).toHaveBeenCalled()
 		})

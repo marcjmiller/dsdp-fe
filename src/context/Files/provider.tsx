@@ -30,6 +30,7 @@ const FilesProvider: FC = ({ children }) => {
 			formData.append('release_type', fileInput.releaseType)
 		}
 
+		/* istanbul ignore next */
 		var config = {
 			onUploadProgress: function (progressEvent: any) {
 				var percentCompleted = Math.round(
