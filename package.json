@@ -32,7 +32,7 @@
 		"format": "prettier --write './{src,cypress}/**/*.{ts,tsx,css,json}'",
 		"cypress": "cypress open --config-file cypress/config/development.json",
 		"test": "react-scripts test --watchAll",
-		"test:unit": "react-scripts test --coverage --watchAll",
+		"test:unit": "react-scripts test --coverage",
 		"test:e2e": "start-server-and-test server http://localhost:3000 test:e2e-dev",
 		"test:e2e-ci": "npx cypress run --browser chrome --config-file cypress/config/pipeline.json",
 		"test:e2e-dev": "npx cypress run --browser firefox --config-file cypress/config/development.json"
