@@ -39,7 +39,13 @@ const FileInputModal: FC<FileInputProps> = () => {
 	}
 	return (
 		<>
-			<Button data-testid="upload-file" onClick={handleClickOpen}>
+			<Button
+				color={'secondary'}
+				sx={{ my: '16px' }}
+				data-testid="upload-file"
+				onClick={handleClickOpen}
+				variant={'outlined'}
+			>
 				Upload File
 			</Button>
 			<Dialog open={open} onClose={handleClose}>

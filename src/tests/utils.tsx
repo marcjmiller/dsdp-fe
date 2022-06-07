@@ -107,6 +107,7 @@ const customRender = async (
 		...options?.testingLibraryOptions,
 	})
 }
+
 export * from '@testing-library/react'
 export {
 	customRender as render,

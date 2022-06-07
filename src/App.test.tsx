@@ -23,26 +23,30 @@ describe('User Journey', () => {
 	beforeAll(() => {
 		server.listen()
 		/*
-		Useful Debugging tooling see which url is being called
-		and what the mocked response was for it
-    
-		More Information here: https://mswjs.io/docs/extensions/life-cycle-events
-		server.events.on("response:mocked", (res, resId) => {
-			console.log("Mocked Responsed for: ", res, resId)
-		})
-		server.events.on("request:start", (req) => {
-			console.log("Requested:", req.url.pathname, "With: ", req)
-		})
+      Useful Debugging tooling see which url is being called
+      and what the mocked response was for it
+
+      More Information here: https://mswjs.io/docs/extensions/life-cycle-events
+      server.events.on("response:mocked", (res, resId) => {
+        console.log("Mocked Responsed for: ", res, resId)
+      })
+      server.events.on("request:start", (req) => {
+        console.log("Requested:", req.url.pathname, "With: ", req)
+      })
 		*/
 	})
+
 	beforeEach(() => {
 		render(<App />)
 	})
+
 	afterEach(() => server.resetHandlers())
+
 	afterAll(() => {
 		cleanup()
 		server.close()
 	})
+
 	it('Should get files list and user info on load', async () => {
 		await screen.findByText(/test.txt/i)
 		//TODO: Display the User somewhere
@@ -62,9 +66,9 @@ describe('User Journey', () => {
 		expect(await screen.findByText(/test.jpg/i)).toBeInTheDocument()
 		expect(await screen.findByText(/safety related/i)).toBeInTheDocument()
 
-		/* 
-	     We reset the mock return for the list endpoint 
-		   here to simulate the new return from the backend
+		/*
+      We reset the mock return for the list endpoint
+      here to simulate the new return from the backend
 		*/
 		server.use(
 			rest.get('/api/files/list', (req, res, ctx) => {
