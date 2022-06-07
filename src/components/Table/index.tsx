@@ -23,7 +23,7 @@ const FilesTable: FC<FilesTableProps> = ({ header }) => {
 	const { fileData, percentComplete, handleDownload, handleDelete } = useFiles()
 
 	return (
-		<TableContainer>
+		<TableContainer sx={{ height: '100%' }}>
 			<Table size="small">
 				{header}
 				<TableBody data-testid="files-list">
