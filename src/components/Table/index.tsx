@@ -20,7 +20,14 @@ interface FilesTableProps {
 
 const FilesTable: FC<FilesTableProps> = ({ header }) => {
 	const { user } = useUser()
-	const { fileData, percentComplete, handleDownload, handleDelete } = useFiles()
+  const { fileData, percentComplete, handleDownload, handleDelete } = useFiles()
+
+  const isInProgress = (file: FileData) => {
+    if (file.isUploading) {
+      return `Uploading... ${percentComplete}%`
+    }
+    return `Downloading... ${percentComplete}%`
+  }
 
 	return (
 		<TableContainer sx={{ height: '100%' }}>
@@ -41,8 +48,7 @@ const FilesTable: FC<FilesTableProps> = ({ header }) => {
 								<TableCell>
 									{file.isUploading || file.isDownloading ? (
 										<Box maxWidth={400}>
-											{file.isUploading ? 'Uploading' : 'Downloading'}...{' '}
-											{percentComplete}%
+											{isInProgress(file)}
 											<LinearProgress
 												variant="determinate"
 												value={percentComplete}
