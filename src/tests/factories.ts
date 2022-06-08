@@ -1,4 +1,4 @@
-import { FileData, Metadata } from '../../context/Files/types'
+import { FileData, Metadata } from '../context/Files/types'
 
 export const newAdminUser = (name = 'Admin', isAdmin = false) => ({
 	name,
@@ -7,13 +7,15 @@ export const newAdminUser = (name = 'Admin', isAdmin = false) => ({
 
 export const newFileData = (
 	name = 'test.txt',
-	size = 12345,
+  size = 12345,
+  isDownloading = false,
+  isUploading = false,
 	metadata?: Metadata,
 ): FileData => {
 	if (!metadata) {
-		return { name, size }
+		return { name, size , isDownloading, isUploading}
 	}
-	return { name, size, metadata }
+	return { name, size, metadata, isDownloading, isUploading }
 }
 
 export const newFileDataList = (

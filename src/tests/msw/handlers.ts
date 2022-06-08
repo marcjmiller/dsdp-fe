@@ -7,7 +7,7 @@ import {
 	RestRequest,
 } from 'msw'
 import { createFile } from '../utils'
-import { newAdminUser, newFileDataList } from './factories'
+import { newAdminUser, newFileDataList } from '../factories'
 
 const listResolver: ResponseResolver<
 	RestRequest<never, PathParams<string>>,

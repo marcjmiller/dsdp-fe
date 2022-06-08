@@ -7,7 +7,7 @@ import {
 	render,
 	screen,
 } from '../../tests/utils'
-import { newFileData } from '../../tests/msw/factories'
+import { newFileData } from '../../tests/factories'
 jest.mock('pretty-bytes')
 
 const prettyMock = prettyBytes as jest.MockedFunction<typeof prettyBytes>
@@ -15,8 +15,8 @@ const prettyMock = prettyBytes as jest.MockedFunction<typeof prettyBytes>
 describe('Table', () => {
 	const downloadSpy = jest.fn()
 	const deleteSpy = jest.fn()
-	const filesWithSize = [createFileDataStub('hello.png')]
-	const filesWithZeroSize = [createFileDataStub('hello.png', 0)]
+	const filesAreUploading = [newFileData('hello.png', 100, undefined, true)]
+	const filesAreDownloading = [newFileData('hello.png', 1000, true)]
 	describe('TableHeader', () => {
 		it.each(['Name:', 'Release Type:', 'Size:', 'Actions:'])(
 			'Renders the `%s` header',
@@ -40,7 +40,7 @@ describe('Table', () => {
 					...defaultFileProps,
 					handleDownload: downloadSpy,
 					handleDelete: deleteSpy,
-					fileData: filesWithSize,
+					fileData: [newFileData('hello.png', undefined, undefined, undefined, {release_type: "Out of Cycle"})]
 				},
 			})
 		})
@@ -71,7 +71,7 @@ describe('Table', () => {
 					...defaultFileProps,
 					handleDownload: downloadSpy,
 					handleDelete: deleteSpy,
-					fileData: filesWithSize,
+					fileData: [newFileData('hello.png')]
 				},
 			})
 		})
@@ -80,16 +80,28 @@ describe('Table', () => {
 			expect(prettyMock).toHaveBeenCalled()
 		})
 
-		it('should display loading bar when file size is zero', () => {
+		it('should display loading bar when file is uploading', () => {
 			render(<FileTable header={<></>} />, {
 				FileProviderProps: {
 					...defaultFileProps,
 					handleDownload: downloadSpy,
 					handleDelete: deleteSpy,
-					fileData: filesWithZeroSize,
+					fileData: filesAreUploading,
 				},
 			})
 			expect(screen.getByText(/uploading... 0%/i)).toBeInTheDocument()
+		})
+
+		it('should display loading bar when file is downloading', () => {
+			render(<FileTable header={<></>} />, {
+				FileProviderProps: {
+					...defaultFileProps,
+					handleDownload: downloadSpy,
+					handleDelete: deleteSpy,
+					fileData: filesAreDownloading,
+				},
+			})
+			expect(screen.getByText(/downloading... 0%/i)).toBeInTheDocument()
 		})
 
 		it('Should render options for Admins', async () => {

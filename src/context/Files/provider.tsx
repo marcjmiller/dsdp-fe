@@ -7,7 +7,7 @@ import { FileData, FileInput } from './types'
 const FilesProvider: FC = ({ children }) => {
 	const [fileData, setFileData] = useState<FileData[]>([])
 	const [fileInput, setFileInput] = useState<FileInput>(initialFileInputState)
-	const [percentComplete, setPercentComplete] = useState(0)
+	const [percentComplete, setPercentComplete] = useState<number>(0)
 
 	useEffect(() => {
 		updateFiles()
@@ -22,6 +22,7 @@ const FilesProvider: FC = ({ children }) => {
 				{
 					name: file.name,
 					size: 0,
+					isUploading: true,
 					metadata: { release_type: releaseType },
 				} as FileData,
 				...fileData,
@@ -46,8 +47,9 @@ const FilesProvider: FC = ({ children }) => {
 			.catch((_) => {
 				updateFiles()
 			})
-
-		setPercentComplete(0)
+			.finally(() => {
+				setPercentComplete(0)
+			})
 	}
 
 	const handleDelete = (file: FileData) => {
@@ -63,14 +65,30 @@ const FilesProvider: FC = ({ children }) => {
 	}
 
 	const handleDownload = (file: FileData) => {
+		setFileData([
+			...fileData.filter((f) => f.name !== file.name),
+			{ ...file, isDownloading: true },
+		])
+		const onDownloadProgress = (progressEvent: ProgressEvent) => {
+			const percentCompleted = Math.round(
+				(progressEvent.loaded * 100) / file.size,
+			)
+			setPercentComplete(percentCompleted)
+		}
+
 		axios
 			.get(`/api/files`, {
 				params: {
 					name: file.name,
 				},
 				responseType: 'blob',
+				onDownloadProgress,
 			})
 			.then(({ data }) => fileDownload(data, file.name))
+			.finally(() => {
+        setPercentComplete(0)
+        updateFiles()
+			})
 	}
 
 	const updateFiles = async () => {

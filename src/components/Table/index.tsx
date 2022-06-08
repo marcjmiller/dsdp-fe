@@ -39,16 +39,17 @@ const FilesTable: FC<FilesTableProps> = ({ header }) => {
 									<TableCell></TableCell>
 								)}
 								<TableCell>
-									{file.size > 0 ? (
-										<>{prettyBytes(file.size)}</>
-									) : (
+									{file.isUploading || file.isDownloading ? (
 										<Box maxWidth={400}>
-											Uploading... {percentComplete}%
+											{file.isUploading ? 'Uploading' : 'Downloading'}...{' '}
+											{percentComplete}%
 											<LinearProgress
 												variant="determinate"
 												value={percentComplete}
 											/>
 										</Box>
+									) : (
+										<>{prettyBytes(file.size)}</>
 									)}
 								</TableCell>
 								<TableCell>

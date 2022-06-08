@@ -15,7 +15,7 @@ import {
 	emptyFileDataList,
 	newFileData,
 	newFileDataList,
-} from './tests/msw/factories'
+} from './tests/factories'
 import fileDownload from 'js-file-download'
 jest.mock('js-file-download', () => jest.fn())
 
@@ -75,7 +75,7 @@ describe('User Journey', () => {
 				return res(
 					ctx.json(
 						newFileDataList([
-							newFileData('test.jpg', 100, { release_type: 'Safety Related' }),
+							newFileData('test.jpg', 100, undefined, undefined, { release_type: 'Safety Related' }),
 						]),
 					),
 				)
