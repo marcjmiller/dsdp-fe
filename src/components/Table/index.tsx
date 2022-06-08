@@ -12,6 +12,7 @@ import {
 import prettyBytes from 'pretty-bytes'
 import { FC, ReactElement } from 'react'
 import { useFiles } from '../../context/Files/context'
+import { FileData } from '../../context/Files/types'
 import { useUser } from '../../context/User/context'
 
 interface FilesTableProps {
@@ -20,14 +21,14 @@ interface FilesTableProps {
 
 const FilesTable: FC<FilesTableProps> = ({ header }) => {
 	const { user } = useUser()
-  const { fileData, percentComplete, handleDownload, handleDelete } = useFiles()
+	const { fileData, percentComplete, handleDownload, handleDelete } = useFiles()
 
-  const isInProgress = (file: FileData) => {
-    if (file.isUploading) {
-      return `Uploading... ${percentComplete}%`
-    }
-    return `Downloading... ${percentComplete}%`
-  }
+	const isInProgress = (file: FileData) => {
+		if (file.isUploading) {
+			return `Uploading... ${percentComplete}%`
+		}
+		return `Downloading... ${percentComplete}%`
+	}
 
 	return (
 		<TableContainer sx={{ height: '100%' }}>
