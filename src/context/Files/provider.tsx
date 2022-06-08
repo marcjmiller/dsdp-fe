@@ -34,7 +34,7 @@ const FilesProvider: FC = ({ children }) => {
 		/* istanbul ignore next */
 		var config = {
 			onUploadProgress: function (progressEvent: any) {
-				var percentCompleted = Math.round(
+				const percentCompleted = Math.round(
 					(progressEvent.loaded * 100) / progressEvent.total,
 				)
 				setPercentComplete(percentCompleted)
@@ -65,10 +65,6 @@ const FilesProvider: FC = ({ children }) => {
 	}
 
 	const handleDownload = (file: FileData) => {
-		setFileData([
-			...fileData.filter((f) => f.name !== file.name),
-			{ ...file, isDownloading: true },
-		])
 		const onDownloadProgress = (progressEvent: ProgressEvent) => {
 			const percentCompleted = Math.round(
 				(progressEvent.loaded * 100) / file.size,
@@ -76,6 +72,15 @@ const FilesProvider: FC = ({ children }) => {
 			setPercentComplete(percentCompleted)
 		}
 
+		const newFileData = fileData.map((f) => {
+			if (f.name === file.name) {
+				f.isDownloading = true
+			}
+
+			return f
+		})
+
+		setFileData(newFileData)
 		axios
 			.get(`/api/files`, {
 				params: {
