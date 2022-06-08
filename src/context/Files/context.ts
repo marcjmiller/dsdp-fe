@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useContext } from 'react'
 import { FileData, FileInput } from './types'
 
 export interface FileContextType {
-  fileData: FileData[]
+	fileData: FileData[]
 	fileInput: FileInput
 	setFileInput: Dispatch<SetStateAction<FileInput>>
 	percentComplete: number
@@ -19,7 +19,7 @@ const initialFileInputState = {
 
 /* istanbul ignore next */
 const initialFileContext: FileContextType = {
-  fileData: [],
+	fileData: [],
 	fileInput: initialFileInputState,
 	setFileInput: () => null,
 	percentComplete: 0,

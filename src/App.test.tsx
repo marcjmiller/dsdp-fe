@@ -75,7 +75,9 @@ describe('User Journey', () => {
 				return res(
 					ctx.json(
 						newFileDataList([
-							newFileData('test.jpg', 100, undefined, undefined, { release_type: 'Safety Related' }),
+							newFileData('test.jpg', 100, undefined, undefined, {
+								release_type: 'Safety Related',
+							}),
 						]),
 					),
 				)

@@ -40,7 +40,11 @@ describe('Table', () => {
 					...defaultFileProps,
 					handleDownload: downloadSpy,
 					handleDelete: deleteSpy,
-					fileData: [newFileData('hello.png', undefined, undefined, undefined, {release_type: "Out of Cycle"})]
+					fileData: [
+						newFileData('hello.png', undefined, undefined, undefined, {
+							release_type: 'Out of Cycle',
+						}),
+					],
 				},
 			})
 		})
@@ -71,7 +75,7 @@ describe('Table', () => {
 					...defaultFileProps,
 					handleDownload: downloadSpy,
 					handleDelete: deleteSpy,
-					fileData: [newFileData('hello.png')]
+					fileData: [newFileData('hello.png')],
 				},
 			})
 		})

@@ -51,7 +51,7 @@ const defaultUserProps: UserContextType = {
 const defaultFileProps: FileContextType = {
 	fileData: [],
 	handleDelete: jest.fn(),
-  handleDownload: jest.fn(),
+	handleDownload: jest.fn(),
 	percentComplete: 0,
 	setFileInput: jest.fn(),
 	handleFileUpload: jest.fn(),

@@ -5,9 +5,9 @@ export type Metadata = {
 export type FileData = {
 	name: string
 	size: number
-  isDownloading: boolean
-  isUploading: boolean
-  metadata?: Metadata
+	isDownloading: boolean
+	isUploading: boolean
+	metadata?: Metadata
 }
 
 export const releaseTypes = [

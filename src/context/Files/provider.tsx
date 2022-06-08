@@ -86,8 +86,8 @@ const FilesProvider: FC = ({ children }) => {
 			})
 			.then(({ data }) => fileDownload(data, file.name))
 			.finally(() => {
-        setPercentComplete(0)
-        updateFiles()
+				setPercentComplete(0)
+				updateFiles()
 			})
 	}
 

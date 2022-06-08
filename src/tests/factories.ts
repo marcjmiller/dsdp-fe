@@ -7,13 +7,13 @@ export const newAdminUser = (name = 'Admin', isAdmin = false) => ({
 
 export const newFileData = (
 	name = 'test.txt',
-  size = 12345,
-  isDownloading = false,
-  isUploading = false,
+	size = 12345,
+	isDownloading = false,
+	isUploading = false,
 	metadata?: Metadata,
 ): FileData => {
 	if (!metadata) {
-		return { name, size , isDownloading, isUploading}
+		return { name, size, isDownloading, isUploading }
 	}
 	return { name, size, metadata, isDownloading, isUploading }
 }
