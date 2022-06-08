@@ -21,7 +21,7 @@ const FilesProvider: FC = ({ children }) => {
 			setFileData([
 				{
 					name: file.name,
-					size: file.size,
+					size: 0,
 					metadata: { release_type: releaseType },
 				} as FileData,
 				...fileData,
@@ -35,7 +35,7 @@ const FilesProvider: FC = ({ children }) => {
 			onUploadProgress: function (progressEvent: any) {
 				var percentCompleted = Math.round(
 					(progressEvent.loaded * 100) / progressEvent.total,
-				)
+        )
 				setPercentComplete(percentCompleted)
 			},
 		}
