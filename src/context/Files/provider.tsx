@@ -35,7 +35,7 @@ const FilesProvider: FC = ({ children }) => {
 			onUploadProgress: function (progressEvent: any) {
 				var percentCompleted = Math.round(
 					(progressEvent.loaded * 100) / progressEvent.total,
-        )
+				)
 				setPercentComplete(percentCompleted)
 			},
 		}
