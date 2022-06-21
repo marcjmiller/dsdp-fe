@@ -45,7 +45,7 @@ const defaultUserProps: UserContextType = {
 	user: {
 		name: 'Testy McTesterton',
 		isAdmin: false,
-		preferred_username: 'computa.anthony',
+		preferredUsername: 'computa.anthony',
 	},
 }
 
@@ -53,7 +53,7 @@ const adminUserProps: UserContextType = {
 	user: {
 		name: 'AnthonysAComputa',
 		isAdmin: true,
-		preferred_username: 'computa.anthony',
+		preferredUsername: 'computa.anthony',
 	},
 }
 
