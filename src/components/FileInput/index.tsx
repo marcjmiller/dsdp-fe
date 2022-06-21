@@ -14,7 +14,7 @@ import { useUser } from '../../context/User/context'
 import DropZone from '../Dropzone'
 
 interface FileInputProps {}
-const FileInputModal: FC<FileInputProps> = () => {
+const FileInput: FC<FileInputProps> = () => {
 	const { user } = useUser()
 	const { handleFileUpload, setFileInput, fileInput } = useFiles()
 	const [open, setOpen] = useState(false)
@@ -79,4 +79,4 @@ const FileInputModal: FC<FileInputProps> = () => {
 	)
 }
 
-export default FileInputModal
+export default FileInput

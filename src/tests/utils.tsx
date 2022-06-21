@@ -45,6 +45,15 @@ const defaultUserProps: UserContextType = {
 	user: {
 		name: 'Testy McTesterton',
 		isAdmin: false,
+		preferred_username: 'computa.anthony',
+	},
+}
+
+const adminUserProps: UserContextType = {
+	user: {
+		name: 'AnthonysAComputa',
+		isAdmin: true,
+		preferred_username: 'computa.anthony',
 	},
 }
 
@@ -116,4 +125,5 @@ export {
 	createFileDataStub,
 	defaultUserProps,
 	defaultFileProps,
+	adminUserProps,
 }

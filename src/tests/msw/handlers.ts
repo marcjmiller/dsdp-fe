@@ -7,7 +7,7 @@ import {
 	RestRequest,
 } from 'msw'
 import { createFile } from '../utils'
-import { newAdminUser, newFileDataList } from '../factories'
+import { newAdminUser, newFileDataList, listOfAdmins } from '../factories'
 
 const listResolver: ResponseResolver<
 	RestRequest<never, PathParams<string>>,
@@ -33,6 +33,9 @@ const handlers = [
 			ctx.set('Content-Type', 'text'),
 			ctx.body(file),
 		)
+	}),
+	rest.get('/api/admins', (req, res, ctx) => {
+		return res(ctx.json(listOfAdmins))
 	}),
 ]
 
