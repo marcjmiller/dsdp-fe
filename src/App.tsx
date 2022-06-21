@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import FilesTable from './components/Table'
 import Banner from './components/Banner'
-import FileInputModal from './components/Modal'
+import FileInput from './components/FileInput'
 import FilesProvider from './context/Files/provider'
 import UserProvider from './context/User/provider'
 import Header from './components/Table/header'
@@ -18,7 +18,7 @@ const App = () => {
 					flexDirection="column"
 				>
 					<Banner />
-					<FileInputModal />
+					<FileInput />
 					<FilesTable header={<Header />} />
 					<Footer />
 				</Box>

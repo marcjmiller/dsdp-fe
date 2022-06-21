@@ -29,3 +29,5 @@ export const newFileDataList = (
 }
 
 export const emptyFileDataList = (): FileData[] => []
+
+export const listOfAdmins = ['bobdylan', 'thunderstruck', 'aerosmith']

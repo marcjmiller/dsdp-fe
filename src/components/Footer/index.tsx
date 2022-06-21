@@ -3,6 +3,7 @@ import Army_Seal from '../../static/images/Army_Seal.png'
 import USMC_Seal from '../../static/images/USMC_Seal.png'
 import PEO_Emblem from '../../static/images/PEO_CS_CSS_Emblem_W.png'
 import JLTV_Logo from '../../static/images/JLTV_Logo.gif'
+import Admin from '../Admin'
 
 const Footer = () => {
 	const imgSize = '112px'
@@ -29,6 +30,7 @@ const Footer = () => {
 				height={imgSize}
 				width={imgSize}
 			/>
+			<Admin />
 		</Box>
 	)
 }

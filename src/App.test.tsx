@@ -72,7 +72,7 @@ describe('User Journey', () => {
 		*/
 		server.use(
 			rest.get('/api/files/list', (req, res, ctx) => {
-				return res(
+				return res.once(
 					ctx.json(
 						newFileDataList([
 							newFileData('test.jpg', 100, undefined, undefined, {

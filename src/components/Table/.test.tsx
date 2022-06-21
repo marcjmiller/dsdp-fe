@@ -6,6 +6,7 @@ import {
 	defaultFileProps,
 	render,
 	screen,
+	adminUserProps,
 } from '../../tests/utils'
 import { newFileData } from '../../tests/factories'
 jest.mock('pretty-bytes')
@@ -70,7 +71,7 @@ describe('Table', () => {
 		beforeEach(() => {
 			prettyMock.mockImplementation(() => '12.3 kB')
 			render(<FileTable header={<></>} />, {
-				UserProviderProps: { user: { name: 'Admin', isAdmin: true } },
+				UserProviderProps: adminUserProps,
 				FileProviderProps: {
 					...defaultFileProps,
 					handleDownload: downloadSpy,

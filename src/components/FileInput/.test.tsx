@@ -1,18 +1,19 @@
 import userEvent from '@testing-library/user-event'
-import FileInputModal from '.'
+import FileInput from '.'
 import {
 	defaultFileProps,
 	render,
 	screen,
 	fireEvent,
 	cleanup,
+	adminUserProps,
 } from '../../tests/utils'
 
 describe('FileInputModal', () => {
 	afterEach(cleanup)
 	describe('As a Non-Admin', () => {
 		beforeEach(() => {
-			render(<FileInputModal />)
+			render(<FileInput />)
 		})
 		it('should not display a button to reveal modal', () => {
 			expect(screen.queryByText(/upload file/i)).not.toBeInTheDocument()
@@ -22,8 +23,8 @@ describe('FileInputModal', () => {
 		const uploadSpy = jest.fn()
 		const setFileInputSpy = jest.fn()
 		beforeEach(() => {
-			render(<FileInputModal />, {
-				UserProviderProps: { user: { name: 'Admin', isAdmin: true } },
+			render(<FileInput />, {
+				UserProviderProps: adminUserProps,
 				FileProviderProps: {
 					...defaultFileProps,
 					handleFileUpload: uploadSpy,

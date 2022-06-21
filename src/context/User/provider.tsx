@@ -4,7 +4,11 @@ import { UserContext } from './context'
 import { User } from './types'
 
 const UserProvider: FC = ({ children }) => {
-	const [user, setUser] = useState<User>({ name: 'Nobody', isAdmin: false })
+	const [user, setUser] = useState<User>({
+		name: 'Nobody',
+		isAdmin: false,
+		preferredUsername: 'nobody',
+	})
 	useLayoutEffect(() => {
 		axios.get('/api/whoami').then((result) => setUser(result.data))
 	}, [])
